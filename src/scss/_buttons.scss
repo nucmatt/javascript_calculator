@@ -1,0 +1,71 @@
+.buttons {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.btn {
+	display: inline-block;
+	@include set-background($light-color);
+	padding: 0.1rem, 0.6rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: $border-radius;
+	cursor: pointer;
+	margin-right: 0.5rem;
+	transition: opacity 0.2s ease-in;
+	outline: none;
+	box-shadow: $btn-box-shadow;
+
+	&:hover {
+		opacity: 0.8;
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	&-link {
+		background: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	&-block {
+		display: block;
+		width: 100%;
+	}
+
+	&-sm {
+		font-size: 0.8rem;
+		padding: 0.3rem, 1rem;
+		margin-right: 0.2rem;
+	}
+
+	&-primary {
+		@include set-background($primary-color);
+	}
+
+	&-light {
+		@include set-background($light-color);
+	}
+
+	&-dark {
+		@include set-background($dark-color);
+	}
+
+	&-danger {
+		@include set-background($danger-color);
+	}
+
+	&-success {
+		@include set-background($success-color);
+	}
+
+	&-white {
+		@include set-background(#fff);
+		border: $border-color solid 1px;
+	}
+}

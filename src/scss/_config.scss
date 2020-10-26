@@ -1,0 +1,29 @@
+$font-stack: Arial, Helvetica, sans-serif;
+
+$primary-color: #003699;
+$dark-color: #333333;
+$light-color: #f4f4f4;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$background-color: #fff;
+$text-color: #333;
+$light-text-color: #fff;
+$form-text-color: #888;
+$border-color: #ccc;
+$border-radius: 10px;
+$element-box-shadow: 1px 1px 10px 2px;
+$btn-box-shadow: 2px 2px 5px;
+
+@mixin set-background($color) {
+    background: $color;
+    color: set-text-color($color);
+}
+
+@function set-text-color($color) {
+    @if (lightness($color) > 70) {
+        @return $text-color;
+    } @else {
+        @return $light-text-color
+    }
+}
+

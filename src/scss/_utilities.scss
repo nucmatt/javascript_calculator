@@ -1,0 +1,149 @@
+/* General Utility Classes */
+
+.card {
+	padding: 1rem;
+	border: $border-color 1px dotted;
+	margin: 0.7rem 0;
+}
+
+.list {
+	margin: 0.5rem 0;
+
+	li {
+		padding-bottom: 0.3rem;
+	}
+}
+
+.badge {
+	font-size: 0.8rem;
+	padding: 0.2rem 0.7rem;
+	text-align: center;
+	margin: 0.3rem;
+	@include set-background($light-color);
+	border-radius: 5px;
+
+	&-primary {
+		@include set-background($primary-color);
+	}
+
+	&-light {
+		@include set-background($light-color);
+		border: $border-color solid 1px;
+	}
+
+	&-dark {
+		@include set-background($dark-color);
+	}
+
+	&-danger {
+		@include set-background($danger-color);
+	}
+
+	&-success {
+		@include set-background($success-color);
+	}
+
+	&-white {
+		@include set-background(#fff);
+		border: $border-color solid 1px;
+	}
+}
+
+.alert {
+	padding: 0.7rem;
+	margin: 1rem 0;
+	opacity: 0.9;
+	@include set-background($light-color);
+
+	&-primary {
+		@include set-background($primary-color);
+	}
+
+	&-light {
+		@include set-background($light-color);
+	}
+
+	&-dark {
+		@include set-background($dark-color);
+	}
+
+	&-danger {
+		@include set-background($danger-color);
+	}
+
+	&-success {
+		@include set-background($success-color);
+	}
+
+	&-white {
+		@include set-background(#fff);
+		border: $border-color solid 1px;
+	}
+}
+
+.bg {
+	&-primary {
+		@include set-background($primary-color);
+	}
+
+	&-light {
+		@include set-background($light-color);
+		border: $border-color solid 1px;
+	}
+
+	&-dark {
+		@include set-background($dark-color);
+	}
+
+	&-danger {
+		@include set-background($danger-color);
+	}
+
+	&-success {
+		@include set-background($success-color);
+	}
+
+	&-white {
+		@include set-background(#fff);
+		border: $border-color solid 1px;
+	}
+}
+
+.round-img {
+	border-radius: 50%;
+}
+
+/* Margin and padding classes */
+$classes: (m, my, p, py);
+$spaceamounts: (0.5, 1, 2, 3);
+
+@each $class in $classes {
+	@each $space in $spaceamounts {
+		@if $space < 1 {
+			.#{$class} {
+				margin: #{$space}rem;
+			}
+		} @else {
+			.#{$class}-#{$space} {
+				margin: #{$space}rem;
+			}
+		}
+	}
+}
+
+/* Grid */
+$grid-values: (2, 3, 4);
+
+@each $value in $grid-values {
+	.grid-#{$value} {
+		display: grid;
+		grid-template-columns: repeat(#{$value}, 1fr);
+		grid-gap: 2rem;
+	}
+}
+
+.grid-2-3 {
+	display: grid;
+	grid-template-columns: 2fr 3fr;
+	grid-gap: 2rem;
+}

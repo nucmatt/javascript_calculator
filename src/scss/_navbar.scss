@@ -1,0 +1,29 @@
+/* Navbar */
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.7rem 2rem;
+	z-index: 1;
+	width: 100%;
+	border-bottom: solid 1px $primary-color;
+	opacity: 0.9;
+	margin-bottom: 1rem;
+
+	ul {
+		display: flex;
+	}
+
+	a {
+		color: $light-text-color;
+
+		&:hover {
+			color: $light-color;
+		}
+	}
+
+	.welcome span {
+		margin-right: 0.6rem;
+	}
+}

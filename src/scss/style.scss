@@ -1,0 +1,91 @@
+@import 'config';
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: $font-stack;
+	font-size: 1rem;
+	line-height: 1.6;
+	background-color: $background-color;
+	color: $text-color;
+}
+
+a {
+	color: $primary-color;
+	text-decoration: none;
+
+	&:hover {
+		color: $dark-color;
+	}
+}
+
+ul {
+	list-style: none;
+}
+
+img {
+	width: 100%;
+}
+
+button {
+	font: inherit;
+}
+
+input {
+	margin: 1.2rem 0;
+
+	[type='text'],
+	[type='email'],
+	[type='password'],
+	[type='date'] {
+		display: block;
+		width: 100%;
+		padding: 0.4rem;
+		font-size: 1.2rem;
+		border: 1px solid $border-color;
+	}
+
+	[type='submit'] {
+		font: inherit;
+	}
+}
+
+select,
+textarea {
+	display: block;
+	width: 100%;
+	padding: 0.4rem;
+	font-size: 1.2rem;
+	border: 1px solid $border-color;
+}
+
+textarea {
+	resize: none;
+}
+
+table {
+	th,
+	td {
+		padding: 1rem;
+		text-align: left;
+	}
+
+	th {
+		background: $light-color;
+	}
+}
+
+@import 'utilities';
+@import 'buttons';
+@import 'text-styles';
+@import 'forms';
+@import 'navbar';
+@import 'animations';
+@import 'layout';
+@import './customized-inputs/slider';
+
+@import 'mediaqueries';

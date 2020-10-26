@@ -1,0 +1,41 @@
+/* Media Queries */
+
+@media (max-width: 700px) {
+	.hide-sm {
+		display: none;
+	}
+
+	@each $value in $grid-values {
+		.grid-#{$value} {
+			grid-template-columns: 1fr;
+		}
+	}
+
+    /* Text styles */
+	.x-large {
+		font-size: 3rem;
+	}
+
+	.large {
+		font-size: 2rem;
+	}
+
+	.lead {
+		font-size: 1rem;
+	}
+
+    /* Navbar */
+	.navbar {
+		display: block;
+		text-align: center;
+
+		h1 {
+			margin-bottom: 0.6rem;
+		}
+
+		ul {
+			text-align: center;
+			justify-content: center;
+		}
+	}
+}
