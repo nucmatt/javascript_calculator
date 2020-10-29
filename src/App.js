@@ -7,6 +7,7 @@ function App() {
 				<div id='calculator'>
 					<div id='display'></div>
 					<div id='secondary-funcs'>
+            <div className="blank"></div>
 						<button id='mem-clear' className='btn'>
 							MC
 						</button>
@@ -54,15 +55,15 @@ function App() {
 						<button id='exponent' className='btn'>
 							y<sup>x</sup>
 						</button>
-						<button id='one' className='btn'></button>
-						<button id='two' className='btn'></button>
-						<button id='three' className='btn'></button>
-						<button id='subtract' className='btn'></button>
-						<button id='backspace' className='btn'></button>
-						<button id='zero' className='btn'></button>
-						<button id='period' className='btn'></button>
-						<button id='equals' className='btn'></button>
-						<button id='add' className='btn'></button>
+						<button id='one' className='btn'>1</button>
+						<button id='two' className='btn'>2</button>
+						<button id='three' className='btn'>3</button>
+						<button id='subtract' className='btn'>-</button>
+						<button id='backspace' className='btn'>del</button>
+						<button id='zero' className='btn'>0</button>
+						<button id='period' className='btn'>.</button>
+						<button id='equals' className='btn'>=</button>
+						<button id='add' className='btn'>+</button>
 					</div>
 				</div>
 			</main>

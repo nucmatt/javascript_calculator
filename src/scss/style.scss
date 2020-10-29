@@ -79,6 +79,35 @@ table {
 	}
 }
 
+main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100%;
+}
+
+#calculator {
+	display: flex;
+	flex-direction: column;
+}
+
+#display {
+	width: 100%;
+	height: 2rem;
+	background-color: black;
+}
+
+#numpad, #secondary-funcs {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 0.5rem;
+}
+
+#secondary-funcs {
+	margin: 0.5rem 0;
+}
+
 @import 'utilities';
 @import 'buttons';
 @import 'text-styles';
