@@ -1,69 +1,50 @@
 import './scss/style.scss';
+import InputBtn from './components/InputBtn';
 
 function App() {
+	const secondaryFuncs = [
+    { id: 'mem-clear', value: 'MC' },
+    { id: 'mem-recall', value: 'MR' },
+    { id: 'mem-add', value: 'M+' },
+    { id: 'clear-display', value: 'AC' }
+  ];
+	const numbpadBtns = [
+		{ id: 'open-parentheses', value: '(' },
+		{ id: 'seven', value: '7' },
+		{ id: 'eight', value: '8' },
+		{ id: 'nine', value: '9' },
+		{ id: 'divide', value: '/' },
+		{ id: 'close-parentheses', value: ')' },
+		{ id: 'four', value: '4' },
+		{ id: 'five', value: '5' },
+		{ id: 'six', value: '6' },
+		{ id: 'multiply', value: '*' },
+		{ id: 'exponent', value: '^' },
+		{ id: 'one', value: '1' },
+		{ id: 'two', value: '2' },
+		{ id: 'three', value: '3' },
+		{ id: 'subtract', value: '-' },
+		{ id: 'backspace', value: 'del' },
+		{ id: 'zero', value: '0' },
+		{ id: 'period', value: '.' },
+		{ id: 'equals', value: '=' },
+		{ id: 'add', value: '+' },
+	];
 	return (
 		<div className='container bg-primary'>
 			<main>
 				<div id='calculator'>
 					<div id='display'></div>
 					<div id='secondary-funcs'>
-            <div className="blank"></div>
-						<button id='mem-clear' className='btn'>
-							MC
-						</button>
-						<button id='mem-recall' className='btn'>
-							MR
-						</button>
-						<button id='mem-add' className='btn'>
-							M+
-						</button>
-						<button id='clear-display' className='btn'>
-							AC
-						</button>
+						<div className='blank'></div>
+						{secondaryFuncs.map((button) => (
+              <InputBtn input={button} />
+            ))}
 					</div>
 					<div id='numpad'>
-						<button id='open-parentheses' className='btn'>
-							(
-						</button>
-						<button id='seven' className='btn'>
-							7
-						</button>
-						<button id='eight' className='btn'>
-							8
-						</button>
-						<button id='nine' className='btn'>
-							9
-						</button>
-						<button id='divide' className='btn'>
-							/
-						</button>
-						<button id='close-parentheses' className='btn'>
-							)
-						</button>
-						<button id='four' className='btn'>
-							4
-						</button>
-						<button id='five' className='btn'>
-							5
-						</button>
-						<button id='six' className='btn'>
-							6
-						</button>
-						<button id='multiply' className='btn'>
-							*
-						</button>
-						<button id='exponent' className='btn'>
-							y<sup>x</sup>
-						</button>
-						<button id='one' className='btn'>1</button>
-						<button id='two' className='btn'>2</button>
-						<button id='three' className='btn'>3</button>
-						<button id='subtract' className='btn'>-</button>
-						<button id='backspace' className='btn'>del</button>
-						<button id='zero' className='btn'>0</button>
-						<button id='period' className='btn'>.</button>
-						<button id='equals' className='btn'>=</button>
-						<button id='add' className='btn'>+</button>
+						{numbpadBtns.map((button) => (
+							<InputBtn input={button} />
+						))}
 					</div>
 				</div>
 			</main>
