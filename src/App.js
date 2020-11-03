@@ -1,13 +1,31 @@
+import { useReducer } from 'react';
 import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
+	const initialState = { eqn: 'equation' };
+	const eqnReducer = (state, action) => {
+		switch (action.type) {
+			case 'UPDATE':
+				return { eqn: (state.eqn + action.payload) };
+			default:
+				return state;
+		}
+	};
+	const [state, dispatch] = useReducer(eqnReducer, initialState);
+
+	const handleClick = (actionType, value) => {
+		dispatch({
+			type: actionType,
+			payload: value
+		})
+	}
 	const secondaryFuncs = [
-    { id: 'mem-clear', value: 'MC' },
-    { id: 'mem-recall', value: 'MR' },
-    { id: 'mem-add', value: 'M+' },
-    { id: 'clear-display', value: 'AC' }
-  ];
+		{ id: 'mem-clear', value: 'MC' },
+		{ id: 'mem-recall', value: 'MR' },
+		{ id: 'mem-add', value: 'M+' },
+		{ id: 'clear-display', value: 'AC' },
+	];
 	const numbpadBtns = [
 		{ id: 'open-parentheses', value: '(' },
 		{ id: 'seven', value: '7' },
@@ -34,16 +52,16 @@ function App() {
 		<div className='container bg-primary'>
 			<main>
 				<div id='calculator'>
-					<div id='display'></div>
+					<div id='display'>{state.eqn}</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
 						{secondaryFuncs.map((button) => (
-              <InputBtn input={button} />
-            ))}
+							<InputBtn input={button} />
+						))}
 					</div>
 					<div id='numpad'>
 						{numbpadBtns.map((button) => (
-							<InputBtn input={button} />
+							<InputBtn input={button} onClick={handleClick}/>
 						))}
 					</div>
 				</div>
