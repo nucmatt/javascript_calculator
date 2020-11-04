@@ -5,26 +5,26 @@ import InputBtn from './components/InputBtn';
 function App() {
 	const initialState = { eqn: '' };
 	const calculate = (equation) => {
-		const stack = [];
+		const outputStack = [];
+		const operatorStack = [];
 		const eqnArray = equation.split(' ');
 		console.log(eqnArray);
-		// for (let i = 0; i < eqnArray.length; i++) {
-		// 	switch(eqnArray[i]) {
-		// 		case "+":
-		// 			stack.push(stack.pop() + stack.pop());
-		// 			break;
-		// 		default:
-		// 			stack.push(parseInt(eqnArray[i]));
-		// 	}
-		// }
-		// return stack.pop();
-	}
+		for (let i = 0; i < eqnArray.length; i++) {
+			if (parseInt(eqnArray[i])) {
+				outputStack.push(parseInt(eqnArray[i]));
+			} else {
+				operatorStack.push(eqnArray[i]);
+			}
+		}
+		console.log(outputStack, operatorStack);
+		
+	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'UPDATE_EQN':
-				return { eqn: (state.eqn + action.payload) };
+				return { eqn: state.eqn + action.payload };
 			case 'SOLVE_EQN':
-				console.log(calculate(state.eqn))
+				calculate(state.eqn);
 				return state;
 			default:
 				return state;
@@ -35,10 +35,10 @@ function App() {
 	const handleClick = (actionType, value) => {
 		dispatch({
 			type: actionType,
-			payload: value
-		})
+			payload: value,
+		});
 		console.log(value);
-	}
+	};
 
 	const secondaryFuncs = [
 		{ id: 'mem-clear', value: 'MC' },
@@ -61,7 +61,7 @@ function App() {
 		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
 		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
-		{ id: 'subtract', value: '-', actionType: 'UPDATE_EQN' },
+		{ id: 'subtract', value: ' - ', actionType: 'UPDATE_EQN' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
 		{ id: 'period', value: '.', actionType: 'UPDATE_EQN' },
@@ -81,7 +81,7 @@ function App() {
 					</div>
 					<div id='numpad'>
 						{numbpadBtns.map((button) => (
-							<InputBtn input={button} handleClick={handleClick}/>
+							<InputBtn input={button} handleClick={handleClick} />
 						))}
 					</div>
 				</div>
