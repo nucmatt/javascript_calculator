@@ -8,6 +8,9 @@ function App() {
 		switch (action.type) {
 			case 'UPDATE_EQN':
 				return { eqn: (state.eqn + action.payload) };
+			case 'SOLVE_EQN':
+				console.log(state)
+				return state;
 			default:
 				return state;
 		}
@@ -46,7 +49,7 @@ function App() {
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
 		{ id: 'period', value: '.', actionType: 'UPDATE_EQN' },
-		{ id: 'equals', value: '=' },
+		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
 		{ id: 'add', value: '+', actionType: 'UPDATE_EQN' },
 	];
 	return (
