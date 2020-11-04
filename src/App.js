@@ -3,10 +3,10 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqn: 'equation' };
+	const initialState = { eqn: '' };
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
-			case 'UPDATE':
+			case 'UPDATE_EQN':
 				return { eqn: (state.eqn + action.payload) };
 			default:
 				return state;
@@ -19,6 +19,7 @@ function App() {
 			type: actionType,
 			payload: value
 		})
+		console.log(value);
 	}
 	const secondaryFuncs = [
 		{ id: 'mem-clear', value: 'MC' },
@@ -27,26 +28,26 @@ function App() {
 		{ id: 'clear-display', value: 'AC' },
 	];
 	const numbpadBtns = [
-		{ id: 'open-parentheses', value: '(' },
-		{ id: 'seven', value: '7' },
-		{ id: 'eight', value: '8' },
-		{ id: 'nine', value: '9' },
-		{ id: 'divide', value: '/' },
-		{ id: 'close-parentheses', value: ')' },
-		{ id: 'four', value: '4' },
-		{ id: 'five', value: '5' },
-		{ id: 'six', value: '6' },
-		{ id: 'multiply', value: '*' },
-		{ id: 'exponent', value: '^' },
-		{ id: 'one', value: '1' },
-		{ id: 'two', value: '2' },
-		{ id: 'three', value: '3' },
-		{ id: 'subtract', value: '-' },
+		{ id: 'open-parentheses', value: '(', actionType: 'UPDATE_EQN' },
+		{ id: 'seven', value: '7', actionType: 'UPDATE_EQN' },
+		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
+		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
+		{ id: 'divide', value: '/', actionType: 'UPDATE_EQN' },
+		{ id: 'close-parentheses', value: ')', actionType: 'UPDATE_EQN' },
+		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
+		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
+		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
+		{ id: 'multiply', value: '*', actionType: 'UPDATE_EQN' },
+		{ id: 'exponent', value: '^', actionType: 'UPDATE_EQN' },
+		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
+		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
+		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
+		{ id: 'subtract', value: '-', actionType: 'UPDATE_EQN' },
 		{ id: 'backspace', value: 'del' },
-		{ id: 'zero', value: '0' },
-		{ id: 'period', value: '.' },
+		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
+		{ id: 'period', value: '.', actionType: 'UPDATE_EQN' },
 		{ id: 'equals', value: '=' },
-		{ id: 'add', value: '+' },
+		{ id: 'add', value: '+', actionType: 'UPDATE_EQN' },
 	];
 	return (
 		<div className='container bg-primary'>
@@ -61,7 +62,7 @@ function App() {
 					</div>
 					<div id='numpad'>
 						{numbpadBtns.map((button) => (
-							<InputBtn input={button} onClick={handleClick}/>
+							<InputBtn input={button} handleClick={handleClick}/>
 						))}
 					</div>
 				</div>
