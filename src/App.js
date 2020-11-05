@@ -9,15 +9,14 @@ function App() {
 		const operatorStack = [];
 		const eqnArray = equation.split(' ');
 		console.log(eqnArray);
-		for (let i = 0; i < eqnArray.length; i++) {
-			if (parseInt(eqnArray[i])) {
-				outputStack.push(parseInt(eqnArray[i]));
+		while (eqnArray.length > 0) {
+			if (parseInt(eqnArray[0])) {
+				outputStack.push(parseInt(eqnArray.shift()))
 			} else {
-				operatorStack.push(eqnArray[i]);
+				operatorStack.push(eqnArray.shift())
 			}
 		}
-		console.log(outputStack, operatorStack);
-		
+		console.log(outputStack, operatorStack, eqnArray);
 	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
@@ -52,7 +51,7 @@ function App() {
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
 		{ id: 'divide', value: ' / ', actionType: 'UPDATE_EQN' },
-		{ id: 'close-parentheses', value: ' ) ', actionType: 'UPDATE_EQN' },
+		{ id: 'close-parentheses', value: ' )', actionType: 'UPDATE_EQN' },
 		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
 		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
 		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
