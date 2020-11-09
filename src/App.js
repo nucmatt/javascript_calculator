@@ -10,14 +10,42 @@ function App() {
 		const eqnArray = equation.split(' ');
 		console.log(eqnArray);
 		while (eqnArray.length > 0) {
-			if (parseInt(eqnArray[0])) {
-				outputStack.push(parseInt(eqnArray.shift()))
+			let token = eqnArray[0];
+			let operator = operatorStack[0];
+			if (parseInt(token)) {
+				outputStack.push(parseInt(token))
+				eqnArray.shift();
+			} else if (operator) {
+				evalOperators(operator, operatorStack);
 			} else {
-				operatorStack.push(eqnArray.shift())
+				operatorStack.push(operator);
 			}
 		}
 		console.log(outputStack, operatorStack, eqnArray);
 	};
+
+	const evalOperators = (operator, stack) => {
+		const precedence = {
+			'^': 4,
+			'*': 3,
+			'/': 3,
+			'+': 2,
+			'-': 2,
+		};
+		const associativity = {
+			'^': 'right',
+			'*': 'left',
+			'/': 'left',
+			'+': 'left',
+			'-': 'left',
+		};
+		// determine precedence
+		// if stack[0] operator has higher precedence OR equal precedence AND left associative AND stack[0] is not a left parenthesis
+		// shift stack[0] operator and push to output stack
+		// else push operator to operator stack
+		// return console.log(precedence[operator], associativity[operator]);
+	};
+	// evalOperators('/');
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'UPDATE_EQN':
