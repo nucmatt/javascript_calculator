@@ -4,48 +4,67 @@ import InputBtn from './components/InputBtn';
 
 function App() {
 	const initialState = { eqn: '' };
+	const precedence = {
+		'^': 4,
+		'*': 3,
+		'/': 3,
+		'+': 2,
+		'-': 2,
+	};
+	const associativity = {
+		'^': 'right',
+		'*': 'left',
+		'/': 'left',
+		'+': 'left',
+		'-': 'left',
+	};
 	const calculate = (equation) => {
-		const outputStack = [];
-		const operatorStack = [];
-		const eqnArray = equation.split(' ');
-		console.log(eqnArray);
+		let outputStack = [];
+		let operatorStack = [];
+		let eqnArray = equation.split(' ');
+		// console.log(eqnArray);
 		while (eqnArray.length > 0) {
-			let token = eqnArray[0];
+			let token = eqnArray.shift();
 			let operator = operatorStack[0];
+			// if token is a number, push it to outputStack
 			if (parseInt(token)) {
-				outputStack.push(parseInt(token))
-				eqnArray.shift();
+				outputStack.push(parseInt(token));
+				console.log(outputStack, operatorStack, eqnArray);
+				// else evaluate token against operatorStack operators
 			} else if (operator) {
-				evalOperators(operator, operatorStack);
+				// if current operator has precedence -OR- if equal precedence and current token is left associative, push entire operatorStack to outputStack then push current token to now empty operatorStack
+				while (
+					greaterPrecedence(operator, token) ||
+					leftAssociative(operator, token)
+				) {
+					outputStack.push(operator);
+					operatorStack.shift();
+					operator = operatorStack[0];
+					// operatorStack.push(token);
+					console.log(outputStack, operatorStack, eqnArray);
+				}
+				operatorStack.unshift(token);
 			} else {
-				operatorStack.push(operator);
+				// if no operatorStack operators, push token to operatorStack
+				operatorStack.push(token);
 			}
-		}
-		console.log(outputStack, operatorStack, eqnArray);
-	};
-
-	const evalOperators = (operator, stack) => {
-		const precedence = {
-			'^': 4,
-			'*': 3,
-			'/': 3,
-			'+': 2,
-			'-': 2,
+			console.log(outputStack, operatorStack, eqnArray);
 		};
-		const associativity = {
-			'^': 'right',
-			'*': 'left',
-			'/': 'left',
-			'+': 'left',
-			'-': 'left',
-		};
-		// determine precedence
-		// if stack[0] operator has higher precedence OR equal precedence AND left associative AND stack[0] is not a left parenthesis
-		// shift stack[0] operator and push to output stack
-		// else push operator to operator stack
-		// return console.log(precedence[operator], associativity[operator]);
+		// once equation array is empty push operator stack onto output stack
+			while (operatorStack[0]) {
+				outputStack.push(operatorStack.shift());
+			}
+			console.log(outputStack, operatorStack, eqnArray);
 	};
-	// evalOperators('/');
+	const greaterPrecedence = (operator, token) => {
+		return precedence[operator] > precedence[token];
+	};
+	const leftAssociative = (operator, token) => {
+		return (
+			precedence[operator] === precedence[token] &&
+			associativity[token] === 'left'
+		);
+	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'UPDATE_EQN':
@@ -64,7 +83,7 @@ function App() {
 			type: actionType,
 			payload: value,
 		});
-		console.log(value);
+		// console.log(value);
 	};
 
 	const secondaryFuncs = [
