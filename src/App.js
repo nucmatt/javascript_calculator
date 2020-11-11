@@ -21,7 +21,7 @@ function App() {
 	const calculate = (equation) => {
 		let outputStack = [];
 		let operatorStack = [];
-		let eqnArray = equation.split(' ');
+		let eqnArray = equation.split('');
 		// console.log(eqnArray);
 		while (eqnArray.length > 0) {
 			let token = eqnArray.shift();
@@ -30,31 +30,45 @@ function App() {
 			if (parseInt(token)) {
 				outputStack.push(parseInt(token));
 				console.log(outputStack, operatorStack, eqnArray);
-				// else evaluate token against operatorStack operators
-			} else if (operator) {
-				// if current operator has precedence -OR- if equal precedence and current token is left associative, push entire operatorStack to outputStack then push current token to now empty operatorStack
+				// else if token is an operator evaluate token against operatorStack operators, if any
+			} else if (operator && token !== ')') {
+				// while current operator has precedence -OR- if equal precedence and current token is left associative,
 				while (
 					greaterPrecedence(operator, token) ||
 					leftAssociative(operator, token)
 				) {
+					// push operators to outputStack
 					outputStack.push(operator);
 					operatorStack.shift();
 					operator = operatorStack[0];
-					// operatorStack.push(token);
-					console.log(outputStack, operatorStack, eqnArray);
+					console.log(outputStack, operatorStack, eqnArray, token);
 				}
+				// then push current token to front of operatorStack
 				operatorStack.unshift(token);
+				console.log(outputStack, operatorStack, eqnArray, token);
+			} else if (token === ')') {
+				while (operator !== '(') {
+					outputStack.push(operator);
+					operatorStack.shift();
+					operator = operatorStack[0];
+					console.log('if executed');
+					console.log(outputStack, operatorStack, eqnArray, token);
+				}
+				if (operator === '(') {
+					operatorStack.shift();
+					console.log(outputStack, operatorStack, eqnArray, token);
+				}
 			} else {
 				// if no operatorStack operators, push token to operatorStack
 				operatorStack.push(token);
 			}
-			console.log(outputStack, operatorStack, eqnArray);
-		};
+			console.log(outputStack, operatorStack, eqnArray, token);
+		}
 		// once equation array is empty push operator stack onto output stack
-			while (operatorStack[0]) {
-				outputStack.push(operatorStack.shift());
-			}
-			console.log(outputStack, operatorStack, eqnArray);
+		while (operatorStack[0]) {
+			outputStack.push(operatorStack.shift());
+		}
+		console.log(outputStack, operatorStack, eqnArray);
 	};
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
@@ -93,26 +107,26 @@ function App() {
 		{ id: 'clear-display', value: 'AC' },
 	];
 	const numbpadBtns = [
-		{ id: 'open-parentheses', value: ' ( ', actionType: 'UPDATE_EQN' },
+		{ id: 'open-parentheses', value: '(', actionType: 'UPDATE_EQN' },
 		{ id: 'seven', value: '7', actionType: 'UPDATE_EQN' },
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
-		{ id: 'divide', value: ' / ', actionType: 'UPDATE_EQN' },
-		{ id: 'close-parentheses', value: ' )', actionType: 'UPDATE_EQN' },
+		{ id: 'divide', value: '/', actionType: 'UPDATE_EQN' },
+		{ id: 'close-parentheses', value: ')', actionType: 'UPDATE_EQN' },
 		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
 		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
 		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
-		{ id: 'multiply', value: ' * ', actionType: 'UPDATE_EQN' },
-		{ id: 'exponent', value: ' ^ ', actionType: 'UPDATE_EQN' },
+		{ id: 'multiply', value: '*', actionType: 'UPDATE_EQN' },
+		{ id: 'exponent', value: '^', actionType: 'UPDATE_EQN' },
 		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
 		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
-		{ id: 'subtract', value: ' - ', actionType: 'UPDATE_EQN' },
+		{ id: 'subtract', value: '-', actionType: 'UPDATE_EQN' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
 		{ id: 'period', value: '.', actionType: 'UPDATE_EQN' },
 		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
-		{ id: 'add', value: ' + ', actionType: 'UPDATE_EQN' },
+		{ id: 'add', value: '+', actionType: 'UPDATE_EQN' },
 	];
 	return (
 		<div className='container bg-primary'>
