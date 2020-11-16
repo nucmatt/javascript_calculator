@@ -104,7 +104,7 @@ function App() {
 		{ id: 'mem-clear', value: 'MC' },
 		{ id: 'mem-recall', value: 'MR' },
 		{ id: 'mem-add', value: 'M+' },
-		{ id: 'clear-display', value: 'AC' },
+		{ id: 'clear', value: 'AC' },
 	];
 	const numbpadBtns = [
 		{ id: 'open-parentheses', value: '(', actionType: 'UPDATE_EQN' },
@@ -124,7 +124,7 @@ function App() {
 		{ id: 'subtract', value: '-', actionType: 'UPDATE_EQN' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
-		{ id: 'period', value: '.', actionType: 'UPDATE_EQN' },
+		{ id: 'decimal', value: '.', actionType: 'UPDATE_EQN' },
 		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
 		{ id: 'add', value: '+', actionType: 'UPDATE_EQN' },
 	];
