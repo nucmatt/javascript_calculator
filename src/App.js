@@ -18,18 +18,17 @@ function App() {
 		'+': 'left',
 		'-': 'left',
 	};
-	const calculate = (equation) => {
+	const infixToPostfix = (array) => {
 		let outputStack = [];
 		let operatorStack = [];
-		let eqnArray = equation.split('');
-		// console.log(eqnArray);
-		while (eqnArray.length > 0) {
-			let token = eqnArray.shift();
+		let infixArray = array;
+		while (infixArray.length > 0) {
+			let token = infixArray.shift();
 			let operator = operatorStack[0];
 			// if token is a number, push it to outputStack
 			if (parseInt(token)) {
 				outputStack.push(parseInt(token));
-				console.log(outputStack, operatorStack, eqnArray);
+				console.log(outputStack, operatorStack, infixArray);
 				// else if token is an operator evaluate token against operatorStack operators, if any
 			} else if (operator && token !== ')') {
 				// while current operator has precedence -OR- if equal precedence and current token is left associative,
@@ -41,34 +40,34 @@ function App() {
 					outputStack.push(operator);
 					operatorStack.shift();
 					operator = operatorStack[0];
-					console.log(outputStack, operatorStack, eqnArray, token);
+					console.log(outputStack, operatorStack, infixArray, token);
 				}
 				// then push current token to front of operatorStack
 				operatorStack.unshift(token);
-				console.log(outputStack, operatorStack, eqnArray, token);
+				console.log(outputStack, operatorStack, infixArray, token);
 			} else if (token === ')') {
 				while (operator !== '(') {
 					outputStack.push(operator);
 					operatorStack.shift();
 					operator = operatorStack[0];
 					console.log('if executed');
-					console.log(outputStack, operatorStack, eqnArray, token);
+					console.log(outputStack, operatorStack, infixArray, token);
 				}
 				if (operator === '(') {
 					operatorStack.shift();
-					console.log(outputStack, operatorStack, eqnArray, token);
+					console.log(outputStack, operatorStack, infixArray, token);
 				}
 			} else {
 				// if no operatorStack operators, push token to operatorStack
 				operatorStack.push(token);
 			}
-			console.log(outputStack, operatorStack, eqnArray, token);
+			console.log(outputStack, operatorStack, infixArray, token);
 		}
-		// once equation array is empty push operator stack onto output stack
+		// once infixArray is empty push operator stack onto output stack
 		while (operatorStack[0]) {
 			outputStack.push(operatorStack.shift());
 		}
-		console.log(outputStack, operatorStack, eqnArray);
+		console.log(outputStack, operatorStack, infixArray);
 	};
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
@@ -84,7 +83,7 @@ function App() {
 			case 'UPDATE_EQN':
 				return { eqn: state.eqn + action.payload };
 			case 'SOLVE_EQN':
-				calculate(state.eqn);
+				infixToPostfix(state.eqn);
 				return state;
 			default:
 				return state;
