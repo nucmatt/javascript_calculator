@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqn: '0' };
+	const initialState = { eqn: '0', eqnArray: [], currentNum: '' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
