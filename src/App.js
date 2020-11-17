@@ -81,10 +81,23 @@ function App() {
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'UPDATE_EQN':
-				return { eqn: state.eqn + action.payload };
+				return {
+					...state,
+					eqn: state.eqn + action.payload,
+					currentNum: state.currentNum + action.payload,
+				};
+			case 'OPERATOR_INPUT':
+				return {
+					...state,
+					eqn: state.eqn + action.payload,
+					eqnArray: state.eqnArray.push(
+						parseFloat(state.currentNum),
+						action.payload
+					),
+					currentNum: '',
+				};
 			case 'SOLVE_EQN':
-				infixToPostfix(state.eqn);
-				return state;
+				return { ...state, eqnArray: infixToPostfix(state.eqnArray) };
 			default:
 				return state;
 		}
@@ -106,26 +119,26 @@ function App() {
 		{ id: 'clear', value: 'AC' },
 	];
 	const numbpadBtns = [
-		{ id: 'open-parentheses', value: '(', actionType: 'UPDATE_EQN' },
+		{ id: 'open-parentheses', value: '(', actionType: 'OPERATOR_INPUT' },
 		{ id: 'seven', value: '7', actionType: 'UPDATE_EQN' },
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
-		{ id: 'divide', value: '/', actionType: 'UPDATE_EQN' },
-		{ id: 'close-parentheses', value: ')', actionType: 'UPDATE_EQN' },
+		{ id: 'divide', value: '/', actionType: 'OPERATOR_INPUT' },
+		{ id: 'close-parentheses', value: ')', actionType: 'OPERATOR_INPUT' },
 		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
 		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
 		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
-		{ id: 'multiply', value: '*', actionType: 'UPDATE_EQN' },
-		{ id: 'exponent', value: '^', actionType: 'UPDATE_EQN' },
+		{ id: 'multiply', value: '*', actionType: 'OPERATOR_INPUT' },
+		{ id: 'exponent', value: '^', actionType: 'OPERATOR_INPUT' },
 		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
 		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
-		{ id: 'subtract', value: '-', actionType: 'UPDATE_EQN' },
+		{ id: 'subtract', value: '-', actionType: 'OPERATOR_INPUT' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
 		{ id: 'decimal', value: '.', actionType: 'UPDATE_EQN' },
 		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
-		{ id: 'add', value: '+', actionType: 'UPDATE_EQN' },
+		{ id: 'add', value: '+', actionType: 'OPERATOR_INPUT' },
 	];
 	return (
 		<div className='container bg-primary'>
