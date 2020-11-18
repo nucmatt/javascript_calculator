@@ -90,7 +90,9 @@ function App() {
 				return {
 					...state,
 					eqn: state.eqn + action.payload,
-					eqnArray: [...state.eqnArray, state.currentNum, action.payload],
+					eqnArray: state.currentNum
+						? [...state.eqnArray, state.currentNum, action.payload]
+						: [...state.eqnArray, action.payload],
 					currentNum: '',
 				};
 			case 'SOLVE_EQN':
