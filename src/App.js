@@ -90,10 +90,7 @@ function App() {
 				return {
 					...state,
 					eqn: state.eqn + action.payload,
-					eqnArray: state.eqnArray.push(
-						parseFloat(state.currentNum),
-						action.payload
-					),
+					eqnArray: [...state.eqnArray, state.currentNum, action.payload],
 					currentNum: '',
 				};
 			case 'SOLVE_EQN':
@@ -109,7 +106,7 @@ function App() {
 			type: actionType,
 			payload: value,
 		});
-		// console.log(value);
+		console.table(state);
 	};
 
 	const secondaryFuncs = [
