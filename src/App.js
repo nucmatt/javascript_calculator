@@ -68,6 +68,7 @@ function App() {
 			outputStack.push(operatorStack.shift());
 		}
 		console.log(outputStack, operatorStack, infixArray);
+		return outputStack;
 	};
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
