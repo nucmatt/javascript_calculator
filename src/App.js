@@ -121,7 +121,7 @@ function App() {
 					currentNum: '',
 				};
 			case 'SOLVE_EQN':
-				return { ...state, eqnArray: infixToPostfix(state.eqnArray) };
+				return { ...state, eqn: action.payload, eqnArray: [], currentNum: action.payload };
 			default:
 				return state;
 		}
@@ -129,10 +129,18 @@ function App() {
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
 
 	const handleClick = (actionType, value) => {
-		dispatch({
-			type: actionType,
-			payload: value,
-		});
+		if (actionType === 'SOLVE_EQN') {
+			const solution = state.currentNum ? solvePostfix([...state.eqnArray, state.currentNum]) : solvePostfix([...state.eqnArray]);
+			dispatch({
+				type: actionType,
+				payload: solution
+			})
+		} else {
+			dispatch({
+				type: actionType,
+				payload: value,
+			});
+		}
 		console.table(state);
 	};
 
