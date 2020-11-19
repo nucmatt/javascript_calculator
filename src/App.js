@@ -73,7 +73,7 @@ function App() {
 
 	const solvePostfix = (array) => {
 		const stack = [];
-		const expression = array;
+		const expression = infixToPostfix(array);
 		for (let i = 0; i < expression.length; i++) {
 			switch (expression[i]) {
 				case '+':
