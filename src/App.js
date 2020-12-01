@@ -77,16 +77,16 @@ function App() {
 		for (let i = 0; i < expression.length; i++) {
 			switch (expression[i]) {
 				case '+':
-					stack.push(stack.pop() + stack.pop());
+					stack.push(stack.shift() + stack.shift());
 					break;
 				case '-':
-					stack.push(stack.pop() - stack.pop());
+					stack.push(stack.shift() - stack.shift());
 					break;
 				case '*':
-					stack.push(stack.pop() * stack.pop());
+					stack.push(stack.shift() * stack.shift());
 					break;
 				case '/':
-					stack.push(stack.pop() / stack.pop());
+					stack.push(stack.shift() / stack.shift());
 					break;
 				default:
 					stack.push(expression[i]);
