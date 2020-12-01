@@ -105,6 +105,13 @@ function App() {
 	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
+			case 'CLEAR_ALL':
+				return {
+					...state,
+					eqn: '0',
+					eqnArray: [],
+					currentNum: ''
+				};
 			case 'UPDATE_EQN':
 				return {
 					...state,
@@ -148,7 +155,7 @@ function App() {
 		{ id: 'mem-clear', value: 'MC' },
 		{ id: 'mem-recall', value: 'MR' },
 		{ id: 'mem-add', value: 'M+' },
-		{ id: 'clear', value: 'AC' },
+		{ id: 'clear', value: 'AC', actionType: 'CLEAR_ALL' },
 	];
 	const numbpadBtns = [
 		{ id: 'open-parentheses', value: '(', actionType: 'OPERATOR_INPUT' },
@@ -180,7 +187,7 @@ function App() {
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
 						{secondaryFuncs.map((button) => (
-							<InputBtn input={button} />
+							<InputBtn input={button} handleClick={handleClick} />
 						))}
 					</div>
 					<div id='numpad'>
