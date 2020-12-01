@@ -74,22 +74,37 @@ function App() {
 	const solvePostfix = (array) => {
 		const stack = [];
 		const expression = infixToPostfix(array);
+		let a, b;
+		console.log(expression);
 		for (let i = 0; i < expression.length; i++) {
 			switch (expression[i]) {
 				case '+':
-					stack.push(stack.shift() + stack.shift());
+					a = stack.pop();
+					b = stack.pop();
+					stack.push(b + a);
+					console.log(stack);
 					break;
 				case '-':
-					stack.push(stack.shift() - stack.shift());
+					a = stack.pop();
+					b = stack.pop();
+					stack.push(b - a);
+					console.log(stack);
 					break;
 				case '*':
-					stack.push(stack.shift() * stack.shift());
+					a = stack.pop();
+					b = stack.pop();
+					stack.push(b * a);
+					console.log(stack);
 					break;
 				case '/':
-					stack.push(stack.shift() / stack.shift());
+					a = stack.pop();
+					b = stack.pop();
+					stack.push(b / a);
+					console.log(stack);
 					break;
 				default:
 					stack.push(expression[i]);
+					console.log(stack);
 			}
 		}
 		return stack.pop();
