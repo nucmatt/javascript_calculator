@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqn: '0', eqnArray: [], currentNum: '' };
+	const initialState = { eqn: '0', eqnArray: [], currentNum: '0' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -125,26 +125,26 @@ function App() {
 					...state,
 					eqn: '0',
 					eqnArray: [],
-					currentNum: ''
+					currentNum: '0',
 				};
 			case 'DECIMAL_INPUT':
 				if (state.currentNum.includes('.')) {
 					return {
-						...state
-					}
+						...state,
+					};
 				} else {
 					return {
 						...state,
 						eqn: state.eqn + action.payload,
-						currentNum: state.currentNum + action.payload
-					}
+						currentNum: state.currentNum + action.payload,
+					};
 				}
 			case 'UPDATE_EQN':
-				return {
-					...state,
-					eqn: state.eqn + action.payload,
-					currentNum: state.currentNum + action.payload,
-				};
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: state.currentNum + action.payload,
+					};
 			case 'OPERATOR_INPUT':
 				return {
 					...state,
@@ -155,7 +155,24 @@ function App() {
 					currentNum: '',
 				};
 			case 'SOLVE_EQN':
-				return { ...state, eqn: action.payload, eqnArray: [], currentNum: action.payload };
+				return {
+					...state,
+					eqn: action.payload,
+					eqnArray: [],
+					currentNum: action.payload,
+				};
+			case 'ZERO_INPUT':
+				if (state.currentNum.startsWith('0')) {
+					return {
+						...state
+					}
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: state.currentNum + action.payload
+					}
+				}
 			default:
 				return state;
 		}
@@ -164,11 +181,13 @@ function App() {
 
 	const handleClick = (actionType, value) => {
 		if (actionType === 'SOLVE_EQN') {
-			const solution = state.currentNum ? solvePostfix([...state.eqnArray, state.currentNum]) : solvePostfix([...state.eqnArray]);
+			const solution = state.currentNum
+				? solvePostfix([...state.eqnArray, state.currentNum])
+				: solvePostfix([...state.eqnArray]);
 			dispatch({
 				type: actionType,
-				payload: solution
-			})
+				payload: solution,
+			});
 		} else {
 			dispatch({
 				type: actionType,
@@ -201,7 +220,7 @@ function App() {
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
 		{ id: 'subtract', value: '-', actionType: 'OPERATOR_INPUT' },
 		{ id: 'backspace', value: 'del' },
-		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
+		{ id: 'zero', value: '0', actionType: 'ZERO_INPUT' },
 		{ id: 'decimal', value: '.', actionType: 'DECIMAL_INPUT' },
 		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
 		{ id: 'add', value: '+', actionType: 'OPERATOR_INPUT' },
