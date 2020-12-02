@@ -26,8 +26,8 @@ function App() {
 			let token = infixArray.shift();
 			let operator = operatorStack[0];
 			// if token is a number, push it to outputStack
-			if (parseInt(token)) {
-				outputStack.push(parseInt(token));
+			if (parseFloat(token)) {
+				outputStack.push(parseFloat(token));
 				console.log(outputStack, operatorStack, infixArray);
 				// else if token is an operator evaluate token against operatorStack operators, if any
 			} else if (operator && token !== ')') {
