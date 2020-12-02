@@ -107,7 +107,7 @@ function App() {
 					console.log(stack);
 			}
 		}
-		return stack.pop();
+		return stack.pop().toFixed(4);
 	};
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
