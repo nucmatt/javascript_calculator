@@ -127,6 +127,18 @@ function App() {
 					eqnArray: [],
 					currentNum: ''
 				};
+			case 'DECIMAL_INPUT':
+				if (state.currentNum.includes('.')) {
+					return {
+						...state
+					}
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: state.currentNum + action.payload
+					}
+				}
 			case 'UPDATE_EQN':
 				return {
 					...state,
@@ -190,7 +202,7 @@ function App() {
 		{ id: 'subtract', value: '-', actionType: 'OPERATOR_INPUT' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'UPDATE_EQN' },
-		{ id: 'decimal', value: '.', actionType: 'UPDATE_EQN' },
+		{ id: 'decimal', value: '.', actionType: 'DECIMAL_INPUT' },
 		{ id: 'equals', value: '=', actionType: 'SOLVE_EQN' },
 		{ id: 'add', value: '+', actionType: 'OPERATOR_INPUT' },
 	];
