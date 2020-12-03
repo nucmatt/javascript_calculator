@@ -147,14 +147,27 @@ function App() {
 					currentNum: state.currentNum + action.payload,
 				};
 			case 'OPERATOR_INPUT':
-				return {
-					...state,
-					eqn: state.eqn + action.payload,
-					eqnArray: state.currentNum
-						? [...state.eqnArray, state.currentNum, action.payload]
-						: [...state.eqnArray, action.payload],
-					currentNum: '',
-				};
+				if (lastInput === '(') {
+					return {
+						...state,
+					};
+				} else if (precedence[lastInput] && action.payload !== '(') {
+					let oldArray = state.eqnArray.slice(0, -1);
+					return {
+						...state,
+						eqn: state.eqn.slice(0, -1) + action.payload,
+						eqnArray: [...oldArray, action.payload]
+					};
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						eqnArray: state.currentNum
+							? [...state.eqnArray, state.currentNum, action.payload]
+							: [...state.eqnArray, action.payload],
+						currentNum: '',
+					};
+				}
 			case 'OPERATOR_SUBTRACT':
 				if (lastInput === action.payload) {
 					return {
@@ -216,6 +229,7 @@ function App() {
 				payload: value,
 			});
 		}
+		console.log(actionType, value);
 		console.table(state);
 	};
 
