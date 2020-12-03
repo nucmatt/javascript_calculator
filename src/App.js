@@ -140,11 +140,11 @@ function App() {
 					};
 				}
 			case 'UPDATE_EQN':
-					return {
-						...state,
-						eqn: state.eqn + action.payload,
-						currentNum: state.currentNum + action.payload,
-					};
+				return {
+					...state,
+					eqn: state.eqn + action.payload,
+					currentNum: state.currentNum + action.payload,
+				};
 			case 'OPERATOR_INPUT':
 				return {
 					...state,
@@ -154,6 +154,28 @@ function App() {
 						: [...state.eqnArray, action.payload],
 					currentNum: '',
 				};
+			case 'OPERATOR_SUBTRACT':
+				let lastInput = state.eqn[state.eqn.length - 1];
+				if (lastInput === action.payload) {
+					return {
+						...state,
+					};
+				} else if (precedence[lastInput] || lastInput === '(') {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: state.currentNum + action.payload,
+					};
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						eqnArray: state.currentNum
+							? [...state.eqnArray, state.currentNum, action.payload]
+							: [...state.eqnArray, action.payload],
+						currentNum: '',
+					};
+				}
 			case 'SOLVE_EQN':
 				return {
 					...state,
@@ -164,14 +186,14 @@ function App() {
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0')) {
 					return {
-						...state
-					}
+						...state,
+					};
 				} else {
 					return {
 						...state,
 						eqn: state.eqn + action.payload,
-						currentNum: state.currentNum + action.payload
-					}
+						currentNum: state.currentNum + action.payload,
+					};
 				}
 			default:
 				return state;
@@ -218,7 +240,7 @@ function App() {
 		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
 		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
-		{ id: 'subtract', value: '-', actionType: 'OPERATOR_INPUT' },
+		{ id: 'subtract', value: '-', actionType: 'OPERATOR_SUBTRACT' },
 		{ id: 'backspace', value: 'del' },
 		{ id: 'zero', value: '0', actionType: 'ZERO_INPUT' },
 		{ id: 'decimal', value: '.', actionType: 'DECIMAL_INPUT' },
