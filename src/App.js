@@ -119,6 +119,7 @@ function App() {
 		);
 	};
 	const eqnReducer = (state, action) => {
+		let lastInput = state.eqn[state.eqn.length - 1];
 		switch (action.type) {
 			case 'CLEAR_ALL':
 				return {
@@ -155,7 +156,6 @@ function App() {
 					currentNum: '',
 				};
 			case 'OPERATOR_SUBTRACT':
-				let lastInput = state.eqn[state.eqn.length - 1];
 				if (lastInput === action.payload) {
 					return {
 						...state,
