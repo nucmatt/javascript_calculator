@@ -122,7 +122,7 @@ function App() {
 		} else {
 			return result.toFixed(4);
 		}
-	}
+	};
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
 	};
@@ -235,7 +235,7 @@ function App() {
 					currentNum: action.payload,
 				};
 			case 'ZERO_INPUT':
-				if (state.currentNum.startsWith('0')) {
+				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
 					return {
 						...state,
 					};
