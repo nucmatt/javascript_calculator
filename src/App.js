@@ -102,6 +102,12 @@ function App() {
 					stack.push(b / a);
 					console.log(stack);
 					break;
+				case '^':
+					a = stack.pop();
+					b = stack.pop();
+					stack.push(Math.pow(b, a))
+					console.log(stack);
+					break;
 				default:
 					stack.push(expression[i]);
 					console.log(stack);
