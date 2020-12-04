@@ -74,7 +74,7 @@ function App() {
 	const solvePostfix = (array) => {
 		const stack = [];
 		const expression = infixToPostfix(array);
-		let a, b;
+		let a, b, solution;
 		console.log(expression);
 		for (let i = 0; i < expression.length; i++) {
 			switch (expression[i]) {
@@ -113,8 +113,16 @@ function App() {
 					console.log(stack);
 			}
 		}
-		return stack.pop().toFixed(4);
+		solution = stack.pop();
+		return solutionPrecision(solution);
 	};
+	const solutionPrecision = (result) => {
+		if (Number.isInteger(result)) {
+			return result;
+		} else {
+			return result.toFixed(4);
+		}
+	}
 	const greaterPrecedence = (operator, token) => {
 		return precedence[operator] > precedence[token];
 	};
