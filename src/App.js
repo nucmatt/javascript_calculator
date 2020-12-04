@@ -105,7 +105,7 @@ function App() {
 				case '^':
 					a = stack.pop();
 					b = stack.pop();
-					stack.push(Math.pow(b, a))
+					stack.push(Math.pow(b, a));
 					console.log(stack);
 					break;
 				default:
@@ -152,6 +152,30 @@ function App() {
 					eqn: state.eqn + action.payload,
 					currentNum: state.currentNum + action.payload,
 				};
+			case 'OPENPAREN_INPUT':
+				if (lastInput === '(') {
+					return {
+						...state,
+					};
+				} else if (precedence[lastInput]) {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						eqnArray: state.currentNum
+							? [...state.eqnArray, state.currentNum, action.payload]
+							: [...state.eqnArray, action.payload],
+						currentNum: '',
+					};
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + '*' + action.payload,
+						eqnArray: state.currentNum
+							? [...state.eqnArray, state.currentNum, '*', action.payload]
+							: [...state.eqnArray, '*', action.payload],
+						currentNum: '',
+					};
+				}
 			case 'OPERATOR_INPUT':
 				if (lastInput === '(') {
 					return {
@@ -162,7 +186,7 @@ function App() {
 					return {
 						...state,
 						eqn: state.eqn.slice(0, -1) + action.payload,
-						eqnArray: [...oldArray, action.payload]
+						eqnArray: [...oldArray, action.payload],
 					};
 				} else {
 					return {
@@ -246,7 +270,7 @@ function App() {
 		{ id: 'clear', value: 'AC', actionType: 'CLEAR_ALL' },
 	];
 	const numbpadBtns = [
-		{ id: 'open-parentheses', value: '(', actionType: 'OPERATOR_INPUT' },
+		{ id: 'open-parentheses', value: '(', actionType: 'OPENPAREN_INPUT' },
 		{ id: 'seven', value: '7', actionType: 'UPDATE_EQN' },
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
