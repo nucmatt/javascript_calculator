@@ -272,9 +272,9 @@ function App() {
 	};
 
 	const secondaryFuncs = [
-		{ id: 'mem-clear', value: 'MC' },
-		{ id: 'mem-recall', value: 'MR' },
-		{ id: 'mem-add', value: 'M+' },
+		{ id: 'mem-clear', value: 'MC', actionType: 'MEM_CLEAR' },
+		{ id: 'mem-recall', value: 'MR', actionType: 'MEM_RECALL' },
+		{ id: 'mem-add', value: 'M+', actionType: 'MEM_ADD' },
 		{ id: 'clear', value: 'AC', actionType: 'CLEAR_ALL' },
 	];
 	const numbpadBtns = [
