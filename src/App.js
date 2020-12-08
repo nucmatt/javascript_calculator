@@ -160,6 +160,29 @@ function App() {
 					eqn: state.eqn + action.payload,
 					currentNum: state.currentNum + action.payload,
 				};
+			case 'MEM_ADD':
+				sessionStorage.setItem('number', state.currentNum);
+				return {
+					...state,
+				};
+			case 'MEM_CLEAR':
+				sessionStorage.removeItem('number');
+				return {
+					...state,
+				};
+			case 'MEM_RECALL':
+				let numFromMem = sessionStorage.getItem('number');
+				if (numFromMem) {
+					return {
+						...state,
+						eqn: state.eqn + numFromMem,
+						currentNum: numFromMem,
+					};
+				} else {
+					return {
+						...state,
+					};
+				}
 			case 'OPENPAREN_INPUT':
 				if (lastInput === '(') {
 					return {
