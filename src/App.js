@@ -326,7 +326,7 @@ function App() {
 		<div className='container bg-primary'>
 			<main>
 				<div id='calculator'>
-					<div id='display'>{state.eqn}</div>
+					<div id='display' className='text-right'>{state.eqn}</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
 						{secondaryFuncs.map((button) => (

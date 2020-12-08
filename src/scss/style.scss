@@ -94,11 +94,16 @@ main {
 
 #display {
 	width: 100%;
-	height: 2rem;
+	max-width: 245px;
+	height: auto;
 	background-color: black;
+	border-radius: $border-radius;
+	padding: 0 10px;
+	word-wrap: break-word;
 }
 
-#numpad, #secondary-funcs {
+#numpad,
+#secondary-funcs {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 0.5rem;
