@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqn: '0', eqnArray: [], currentNum: '0' };
+	const initialState = { eqnArray: [], currentNum: '0' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -133,12 +133,11 @@ function App() {
 		);
 	};
 	const eqnReducer = (state, action) => {
-		let lastInput = state.eqn[state.eqn.length - 1];
+		let lastInput = state.currentNum[state.currentNum.length - 1];
 		switch (action.type) {
 			case 'CLEAR_ALL':
 				return {
 					...state,
-					eqn: '0',
 					eqnArray: [],
 					currentNum: '0',
 				};
@@ -150,7 +149,6 @@ function App() {
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						currentNum: state.currentNum + action.payload,
 					};
 				}
@@ -158,13 +156,11 @@ function App() {
 				if (state.currentNum ==='0') {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						currentNum: action.payload
 					}
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						currentNum: state.currentNum + action.payload,
 					};
 				}
@@ -183,7 +179,6 @@ function App() {
 				if (numFromMem) {
 					return {
 						...state,
-						eqn: state.eqn + numFromMem,
 						currentNum: numFromMem,
 					};
 				} else {
@@ -199,7 +194,6 @@ function App() {
 				} else if (precedence[lastInput]) {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						eqnArray: state.currentNum
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
@@ -208,7 +202,6 @@ function App() {
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + '*' + action.payload,
 						eqnArray: state.currentNum
 							? [...state.eqnArray, state.currentNum, '*', action.payload]
 							: [...state.eqnArray, '*', action.payload],
@@ -224,13 +217,11 @@ function App() {
 					let oldArray = state.eqnArray.slice(0, -1);
 					return {
 						...state,
-						eqn: state.eqn.slice(0, -1) + action.payload,
 						eqnArray: [...oldArray, action.payload],
 					};
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						eqnArray: state.currentNum
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
@@ -245,13 +236,11 @@ function App() {
 				} else if (precedence[lastInput] || lastInput === '(') {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						currentNum: state.currentNum + action.payload,
 					};
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						eqnArray: state.currentNum
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
@@ -261,7 +250,6 @@ function App() {
 			case 'SOLVE_EQN':
 				return {
 					...state,
-					eqn: action.payload,
 					eqnArray: [],
 					currentNum: action.payload,
 				};
@@ -273,7 +261,6 @@ function App() {
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + action.payload,
 						currentNum: state.currentNum + action.payload,
 					};
 				}
@@ -334,7 +321,7 @@ function App() {
 		<div className='container bg-primary'>
 			<main>
 				<div id='calculator'>
-					<div id='eqn' className='text-right'>{state.eqn}</div>
+					<div id='eqn' className='text-right'>{state.eqnArray.toString().replace(/,/g, '')}</div>
 					<div id='display' className='text-right'>{state.currentNum}</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
