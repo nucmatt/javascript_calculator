@@ -155,11 +155,19 @@ function App() {
 					};
 				}
 			case 'UPDATE_EQN':
-				return {
-					...state,
-					eqn: state.eqn + action.payload,
-					currentNum: state.currentNum + action.payload,
-				};
+				if (state.currentNum ==='0') {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: action.payload
+					}
+				} else {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						currentNum: state.currentNum + action.payload,
+					};
+				}
 			case 'MEM_ADD':
 				sessionStorage.setItem('number', state.currentNum);
 				return {
