@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqnArray: [], currentNum: '0' };
+	const initialState = { eqnArray: [], currentNum: '0', lastInput: '' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -117,12 +117,15 @@ function App() {
 		return solutionPrecision(solution);
 	};
 	const solutionPrecision = (result) => {
-		if (Number.isInteger(result)) {
+		if (result === '0') {
+			return 0;
+		}
+		else if (Number.isInteger(result)) {
 			return result;
 		} else if (Number.isFinite(result)) {
 			return result.toFixed(4);
 		} else {
-			return 'NaN';
+			return '0';
 		}
 	};
 	const greaterPrecedence = (operator, token) => {
@@ -135,13 +138,13 @@ function App() {
 		);
 	};
 	const eqnReducer = (state, action) => {
-		let lastInput = state.currentNum[state.currentNum.length - 1];
 		switch (action.type) {
 			case 'CLEAR_ALL':
 				return {
 					...state,
 					eqnArray: [],
 					currentNum: '0',
+					lastInput: ''
 				};
 			case 'DECIMAL_INPUT':
 				if (state.currentNum.includes('.')) {
@@ -152,6 +155,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
+						lastInput: '.'
 					};
 				}
 			case 'UPDATE_EQN':
@@ -159,11 +163,13 @@ function App() {
 					return {
 						...state,
 						currentNum: action.payload,
+						lastInput: action.payload
 					};
 				} else {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
+						lastInput: action.payload
 					};
 				}
 			case 'MEM_ADD':
@@ -181,7 +187,9 @@ function App() {
 				if (numFromMem) {
 					return {
 						...state,
+						eqnArray: [numFromMem],
 						currentNum: numFromMem,
+						lastInput: numFromMem[numFromMem.length - 1]
 					};
 				} else {
 					return {
@@ -189,17 +197,18 @@ function App() {
 					};
 				}
 			case 'OPENPAREN_INPUT':
-				if (lastInput === '(') {
+				if (state.lastInput === '(') {
 					return {
 						...state,
 					};
-				} else if (precedence[lastInput]) {
+				} else if (precedence[state.lastInput]) {
 					return {
 						...state,
 						eqnArray: state.currentNum
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -208,18 +217,20 @@ function App() {
 							? [...state.eqnArray, state.currentNum, '*', action.payload]
 							: [...state.eqnArray, '*', action.payload],
 						currentNum: '',
+						lastInput: action.payload
 					};
 				}
 			case 'OPERATOR_INPUT':
-				if (lastInput === '(') {
+				if (state.lastInput === '(') {
 					return {
 						...state,
 					};
-				} else if (precedence[lastInput] && action.payload !== '(') {
+				} else if (precedence[state.lastInput] && action.payload !== '(') {
 					let oldArray = state.eqnArray.slice(0, -1);
 					return {
 						...state,
 						eqnArray: [...oldArray, action.payload],
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -228,17 +239,19 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
+						lastInput: action.payload
 					};
 				}
 			case 'OPERATOR_SUBTRACT':
-				if (lastInput === action.payload) {
+				if (state.lastInput === action.payload) {
 					return {
 						...state,
 					};
-				} else if (precedence[lastInput] || lastInput === '(') {
+				} else if (precedence[state.lastInput] || state.lastInput === '(') {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -247,6 +260,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
+						lastInput: action.payload
 					};
 				}
 			case 'SOLVE_EQN':
@@ -254,6 +268,7 @@ function App() {
 					...state,
 					eqnArray: [],
 					currentNum: action.payload,
+					lastInput: action.payload[action.payload.length - 1]
 				};
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
@@ -264,6 +279,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
+						lastInput: action.payload
 					};
 				}
 			default:
@@ -324,10 +340,10 @@ function App() {
 			<main>
 				<div id='calculator'>
 					<div id='eqn' className='text-right'>
-						{state.eqnArray.toString().replace(/,/g, '')}
+						{state.eqnArray.toString().replace(/,/g, '') + state.currentNum}
 					</div>
 					<div id='display' className='text-right'>
-						{state.currentNum}
+						{solvePostfix([...state.eqnArray, state.currentNum])}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
