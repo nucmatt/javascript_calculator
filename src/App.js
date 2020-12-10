@@ -119,8 +119,10 @@ function App() {
 	const solutionPrecision = (result) => {
 		if (Number.isInteger(result)) {
 			return result;
-		} else {
+		} else if (Number.isFinite(result)) {
 			return result.toFixed(4);
+		} else {
+			return 'NaN';
 		}
 	};
 	const greaterPrecedence = (operator, token) => {
@@ -153,11 +155,11 @@ function App() {
 					};
 				}
 			case 'UPDATE_EQN':
-				if (state.currentNum ==='0') {
+				if (state.currentNum === '0') {
 					return {
 						...state,
-						currentNum: action.payload
-					}
+						currentNum: action.payload,
+					};
 				} else {
 					return {
 						...state,
@@ -293,7 +295,7 @@ function App() {
 		{ id: 'mem-clear', value: 'MC', actionType: 'MEM_CLEAR' },
 		{ id: 'mem-recall', value: 'MR', actionType: 'MEM_RECALL' },
 		{ id: 'mem-add', value: 'M+', actionType: 'MEM_ADD' },
-		{ id: 'clear', value: 'C', actionType: 'CLEAR_ALL', },
+		{ id: 'clear', value: 'C', actionType: 'CLEAR_ALL' },
 	];
 	const numbpadBtns = [
 		{ id: 'open-parentheses', value: '(', actionType: 'OPENPAREN_INPUT' },
@@ -321,8 +323,12 @@ function App() {
 		<div className='container bg-primary'>
 			<main>
 				<div id='calculator'>
-					<div id='eqn' className='text-right'>{state.eqnArray.toString().replace(/,/g, '')}</div>
-					<div id='display' className='text-right'>{state.currentNum}</div>
+					<div id='eqn' className='text-right'>
+						{state.eqnArray.toString().replace(/,/g, '')}
+					</div>
+					<div id='display' className='text-right'>
+						{state.currentNum}
+					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
 						{secondaryFuncs.map((button) => (
