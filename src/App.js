@@ -200,15 +200,12 @@ function App() {
 					};
 				}
 			case 'OPENPAREN_INPUT':
-				if (state.lastInput === '(') {
-					return {
-						...state,
-					};
-				} else if (state.currentNum === '0') {
+				if (state.currentNum === '0' || state.lastInput === '(') {
 					return {
 						...state,
 						eqnArray: [...state.eqnArray, action.payload],
-						lastInput: action.payload
+						lastInput: action.payload,
+						currentNum: ''
 					}
 				} else if (precedence[state.lastInput]) {
 					return {
