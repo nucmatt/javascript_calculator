@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqnArray: [], currentNum: '0', lastInput: '', eqn: '0', solution: '0' };
+	const initialState = { eqnArray: [], currentNum: '0', lastInput: '', solution: '0' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -145,7 +145,6 @@ function App() {
 					eqnArray: [],
 					currentNum: '0',
 					lastInput: '',
-					eqn: '0',
 					solution: '0'
 				};
 			case 'DECIMAL_INPUT':
@@ -157,8 +156,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: '.',
-						eqn: state.eqn + action.payload
+						lastInput: '.'
 					};
 				}
 			case 'UPDATE_EQN':
@@ -166,15 +164,13 @@ function App() {
 					return {
 						...state,
 						currentNum: action.payload,
-						lastInput: action.payload,
-						eqn: action.payload
+						lastInput: action.payload
 					};
 				} else {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						eqn: state.eqn + action.payload,
 						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
 					};
 				}
@@ -196,7 +192,6 @@ function App() {
 						eqnArray: [numFromMem],
 						currentNum: numFromMem,
 						lastInput: numFromMem[numFromMem.length - 1],
-						eqn: numFromMem,
 						solution: numFromMem
 					};
 				} else {
@@ -213,8 +208,7 @@ function App() {
 					return {
 						...state,
 						eqnArray: [...state.eqnArray, action.payload],
-						lastInput: action.payload,
-						eqn: state.eqn.slice(0, state.eqn.length - 1) + action.payload
+						lastInput: action.payload
 					}
 				} else if (precedence[state.lastInput]) {
 					return {
@@ -223,8 +217,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -233,8 +226,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, '*', action.payload]
 							: [...state.eqnArray, '*', action.payload],
 						currentNum: '',
-						lastInput: action.payload,
-						eqn: state.eqn + '*' + action.payload
+						lastInput: action.payload
 					};
 				}
 			case 'OPERATOR_INPUT':
@@ -247,8 +239,7 @@ function App() {
 					return {
 						...state,
 						eqnArray: [...oldArray, action.payload],
-						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -257,8 +248,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						lastInput: action.payload
 					};
 				}
 			case 'OPERATOR_SUBTRACT':
@@ -270,8 +260,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						lastInput: action.payload
 					};
 				} else {
 					return {
@@ -280,8 +269,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						lastInput: action.payload
 					};
 				}
 			case 'SOLVE_EQN':
@@ -290,7 +278,6 @@ function App() {
 					eqnArray: [],
 					currentNum: action.payload,
 					lastInput: action.payload[action.payload.length - 1],
-					eqn: action.payload,
 					solution: action.payload
 				};
 			case 'ZERO_INPUT':
@@ -303,7 +290,6 @@ function App() {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						eqn: state.eqn + action.payload,
 						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
 					};
 				}
@@ -365,7 +351,7 @@ function App() {
 			<main>
 				<div id='calculator'>
 					<div id='eqn' className='text-right'>
-						{state.eqn}
+						{state.eqnArray.join('') + state.currentNum}
 					</div>
 					<div id='display' className='text-right'>
 						{state.solution}
