@@ -144,7 +144,9 @@ function App() {
 					...state,
 					eqnArray: [],
 					currentNum: '0',
-					lastInput: ''
+					lastInput: '',
+					eqn: '0',
+					solution: '0'
 				};
 			case 'DECIMAL_INPUT':
 				if (state.currentNum.includes('.')) {
@@ -155,7 +157,8 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: '.'
+						lastInput: '.',
+						eqn: state.eqn + action.payload
 					};
 				}
 			case 'UPDATE_EQN':
@@ -163,13 +166,15 @@ function App() {
 					return {
 						...state,
 						currentNum: action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: action.payload
 					};
 				} else {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				}
 			case 'MEM_ADD':
@@ -189,7 +194,8 @@ function App() {
 						...state,
 						eqnArray: [numFromMem],
 						currentNum: numFromMem,
-						lastInput: numFromMem[numFromMem.length - 1]
+						lastInput: numFromMem[numFromMem.length - 1],
+						eqn: numFromMem
 					};
 				} else {
 					return {
@@ -208,7 +214,8 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				} else {
 					return {
@@ -217,7 +224,8 @@ function App() {
 							? [...state.eqnArray, state.currentNum, '*', action.payload]
 							: [...state.eqnArray, '*', action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + '*' + action.payload
 					};
 				}
 			case 'OPERATOR_INPUT':
@@ -230,7 +238,8 @@ function App() {
 					return {
 						...state,
 						eqnArray: [...oldArray, action.payload],
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				} else {
 					return {
@@ -239,7 +248,8 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				}
 			case 'OPERATOR_SUBTRACT':
@@ -251,7 +261,8 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				} else {
 					return {
@@ -260,7 +271,8 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				}
 			case 'SOLVE_EQN':
@@ -268,7 +280,8 @@ function App() {
 					...state,
 					eqnArray: [],
 					currentNum: action.payload,
-					lastInput: action.payload[action.payload.length - 1]
+					lastInput: action.payload[action.payload.length - 1],
+					eqn: action.payload
 				};
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
@@ -279,7 +292,8 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
+						eqn: state.eqn + action.payload
 					};
 				}
 			default:
