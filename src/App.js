@@ -3,7 +3,12 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqnArray: [], currentNum: '0', lastInput: '', solution: '0' };
+	const initialState = {
+		eqnArray: [],
+		currentNum: '0',
+		lastInput: '',
+		solution: '0',
+	};
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -119,8 +124,7 @@ function App() {
 	const solutionPrecision = (result) => {
 		if (result === '0') {
 			return 0;
-		}
-		else if (Number.isInteger(result)) {
+		} else if (Number.isInteger(result)) {
 			return result;
 		} else if (Number.isFinite(result)) {
 			return result.toFixed(4);
@@ -137,6 +141,12 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
+	const countOpenParen = (array) => {
+		return array.filter((index) => index === '(').length;
+	};
+	const countCloseParen = (array) => {
+		return array.filter((index) => index === ')').length;
+	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
@@ -145,8 +155,21 @@ function App() {
 					eqnArray: [],
 					currentNum: '0',
 					lastInput: '',
-					solution: '0'
+					solution: '0',
 				};
+			case 'CLOSEPAREN_INPUT':
+				if (countOpenParen(state.eqnArray) <= countCloseParen(state.eqnArray)) {
+					return {
+						...state,
+					};
+				} else {
+					return {
+						...state,
+						eqnArray: [...state.eqnArray, state.currentNum, action.payload],
+						lastInput: action.payload,
+						currentNum: '',
+					};
+				}
 			case 'DECIMAL_INPUT':
 				if (state.currentNum.includes('.')) {
 					return {
@@ -156,7 +179,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: '.'
+						lastInput: '.',
 					};
 				}
 			case 'UPDATE_EQN':
@@ -164,14 +187,17 @@ function App() {
 					return {
 						...state,
 						currentNum: action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				} else {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
+						solution: solvePostfix([
+							...state.eqnArray,
+							state.currentNum + action.payload,
+						]),
 					};
 				}
 			case 'MEM_ADD':
@@ -192,7 +218,7 @@ function App() {
 						eqnArray: [numFromMem],
 						currentNum: numFromMem,
 						lastInput: numFromMem[numFromMem.length - 1],
-						solution: numFromMem
+						solution: numFromMem,
 					};
 				} else {
 					return {
@@ -205,8 +231,8 @@ function App() {
 						...state,
 						eqnArray: [...state.eqnArray, action.payload],
 						lastInput: action.payload,
-						currentNum: ''
-					}
+						currentNum: '',
+					};
 				} else if (precedence[state.lastInput]) {
 					return {
 						...state,
@@ -214,7 +240,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				} else {
 					return {
@@ -223,7 +249,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, '*', action.payload]
 							: [...state.eqnArray, '*', action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				}
 			case 'OPERATOR_INPUT':
@@ -236,7 +262,7 @@ function App() {
 					return {
 						...state,
 						eqnArray: [...oldArray, action.payload],
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				} else {
 					return {
@@ -245,7 +271,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				}
 			case 'OPERATOR_SUBTRACT':
@@ -257,7 +283,7 @@ function App() {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				} else {
 					return {
@@ -266,7 +292,7 @@ function App() {
 							? [...state.eqnArray, state.currentNum, action.payload]
 							: [...state.eqnArray, action.payload],
 						currentNum: '',
-						lastInput: action.payload
+						lastInput: action.payload,
 					};
 				}
 			case 'SOLVE_EQN':
@@ -275,7 +301,7 @@ function App() {
 					eqnArray: [],
 					currentNum: action.payload,
 					lastInput: action.payload[action.payload.length - 1],
-					solution: action.payload
+					solution: action.payload,
 				};
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
@@ -287,7 +313,10 @@ function App() {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
+						solution: solvePostfix([
+							...state.eqnArray,
+							state.currentNum + action.payload,
+						]),
 					};
 				}
 			default:
@@ -327,7 +356,7 @@ function App() {
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
 		{ id: 'divide', value: '/', actionType: 'OPERATOR_INPUT' },
-		{ id: 'close-parentheses', value: ')', actionType: 'OPERATOR_INPUT' },
+		{ id: 'close-parentheses', value: ')', actionType: 'CLOSEPAREN_INPUT' },
 		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
 		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
 		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
