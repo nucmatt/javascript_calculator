@@ -175,12 +175,18 @@ function App() {
 					return {
 						...state,
 					};
-				} else {
+				} else if (state.currentNum) {
 					return {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: '.',
 					};
+				} else {
+					return {
+						...state,
+						currentNum: '0.',
+						lastInput: '.'
+					}
 				}
 			case 'UPDATE_EQN':
 				if (state.currentNum === '0') {
