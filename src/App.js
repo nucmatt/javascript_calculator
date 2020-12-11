@@ -209,6 +209,13 @@ function App() {
 					return {
 						...state,
 					};
+				} else if (state.currentNum === '0') {
+					return {
+						...state,
+						eqnArray: [...state.eqnArray, action.payload],
+						lastInput: action.payload,
+						eqn: state.eqn.slice(0, state.eqn.length - 1) + action.payload
+					}
 				} else if (precedence[state.lastInput]) {
 					return {
 						...state,
