@@ -174,7 +174,8 @@ function App() {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						eqn: state.eqn + action.payload,
+						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
 					};
 				}
 			case 'MEM_ADD':
@@ -195,7 +196,8 @@ function App() {
 						eqnArray: [numFromMem],
 						currentNum: numFromMem,
 						lastInput: numFromMem[numFromMem.length - 1],
-						eqn: numFromMem
+						eqn: numFromMem,
+						solution: numFromMem
 					};
 				} else {
 					return {
@@ -281,7 +283,8 @@ function App() {
 					eqnArray: [],
 					currentNum: action.payload,
 					lastInput: action.payload[action.payload.length - 1],
-					eqn: action.payload
+					eqn: action.payload,
+					solution: action.payload
 				};
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
@@ -293,7 +296,8 @@ function App() {
 						...state,
 						currentNum: state.currentNum + action.payload,
 						lastInput: action.payload,
-						eqn: state.eqn + action.payload
+						eqn: state.eqn + action.payload,
+						solution: solvePostfix([...state.eqnArray, state.currentNum + action.payload])
 					};
 				}
 			default:
