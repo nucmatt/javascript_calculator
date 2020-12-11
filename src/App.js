@@ -3,7 +3,7 @@ import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 
 function App() {
-	const initialState = { eqnArray: [], currentNum: '0', lastInput: '' };
+	const initialState = { eqnArray: [], currentNum: '0', lastInput: '', eqn: '0', solution: '0' };
 	const precedence = {
 		'^': 4,
 		'*': 3,
@@ -125,7 +125,7 @@ function App() {
 		} else if (Number.isFinite(result)) {
 			return result.toFixed(4);
 		} else {
-			return '0';
+			return '...';
 		}
 	};
 	const greaterPrecedence = (operator, token) => {
@@ -340,10 +340,10 @@ function App() {
 			<main>
 				<div id='calculator'>
 					<div id='eqn' className='text-right'>
-						{state.eqnArray.toString().replace(/,/g, '') + state.currentNum}
+						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{solvePostfix([...state.eqnArray, state.currentNum])}
+						{state.solution}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
