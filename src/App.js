@@ -197,21 +197,27 @@ function App() {
 					}
 				}
 			case 'UPDATE_EQN':
-				if (state.currentNum === '0') {
+				if (state.lastInput === '0') {
 					return {
 						...state,
-						currentNum: action.payload,
+						eqn: state.eqn.slice(0, -1) + action.payload,
 						lastInput: action.payload,
 					};
+				} else if (state.lastInput === ')') {
+					return {
+						...state,
+						eqn: state.eqn + ' * ' + action.payload,
+						lastInput: action.payload
+					} 
 				} else {
 					return {
 						...state,
-						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload,
-						solution: solvePostfix([
-							...state.eqnArray,
-							state.currentNum + action.payload,
-						]),
+						eqn: state.eqn + action.payload,
+						lastInput: state.lastInput + action.payload,
+						// solution: solvePostfix([
+						// 	...state.eqnArray,
+						// 	state.currentNum + action.payload,
+						// ]),
 					};
 				}
 			case 'MEM_ADD':
