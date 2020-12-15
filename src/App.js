@@ -274,24 +274,20 @@ function App() {
 					};
 				}
 			case 'OPERATOR_INPUT':
-				if (state.lastInput === '(') {
+				if (state.lastInput === '(' || state.eqn === '') {
 					return {
 						...state,
 					};
-				} else if (precedence[state.lastInput] && action.payload !== '(') {
-					let oldArray = state.eqnArray.slice(0, -1);
+				} else if (precedence[state.lastInput]) {
 					return {
 						...state,
-						eqnArray: [...oldArray, action.payload],
+						eqn: state.eqn.slice(0, -1) + action.payload,
 						lastInput: action.payload,
 					};
 				} else {
 					return {
 						...state,
-						eqnArray: state.currentNum
-							? [...state.eqnArray, state.currentNum, action.payload]
-							: [...state.eqnArray, action.payload],
-						currentNum: '',
+						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
 				}
