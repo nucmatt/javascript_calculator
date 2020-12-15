@@ -221,7 +221,7 @@ function App() {
 					};
 				}
 			case 'MEM_ADD':
-				sessionStorage.setItem('number', state.currentNum);
+				sessionStorage.setItem('number', state.solution);
 				return {
 					...state,
 				};
@@ -232,14 +232,18 @@ function App() {
 				};
 			case 'MEM_RECALL':
 				let numFromMem = sessionStorage.getItem('number');
-				if (numFromMem) {
+				if (numFromMem && state.eqn === '') {
 					return {
 						...state,
-						eqnArray: [numFromMem],
-						currentNum: numFromMem,
-						lastInput: numFromMem[numFromMem.length - 1],
-						solution: numFromMem,
+						eqn: numFromMem,
+						lastInput: numFromMem,
 					};
+				} else if (numFromMem && precedence[state.lastInput]) {
+					return {
+						...state,
+						eqn: state.eqn + ' ' + numFromMem,
+						lastInput: numFromMem
+					}
 				} else {
 					return {
 						...state,
