@@ -250,30 +250,27 @@ function App() {
 					};
 				}
 			case 'OPENPAREN_INPUT':
-				if (state.currentNum === '0' || state.lastInput === '(') {
+				if (state.lastInput === '0') {
 					return {
 						...state,
-						eqnArray: [...state.eqnArray, action.payload],
+						eqn: state.eqn.slice(0, -1) + action.payload,
 						lastInput: action.payload,
-						currentNum: '',
 					};
-				} else if (precedence[state.lastInput]) {
+				} else if (precedence[state.lastInput] || state.lastInput === '(') {
 					return {
 						...state,
-						eqnArray: state.currentNum
-							? [...state.eqnArray, state.currentNum, action.payload]
-							: [...state.eqnArray, action.payload],
-						currentNum: '',
+						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
+				} else if (state.lastInput === ')' || Number.isFinite(state.lastInput)) {
+					return {
+						...state,
+						eqn: state.eqn + ' * ' + action.payload,
+						lastInput: action.payload
+					}
 				} else {
 					return {
 						...state,
-						eqnArray: state.currentNum
-							? [...state.eqnArray, state.currentNum, '*', action.payload]
-							: [...state.eqnArray, '*', action.payload],
-						currentNum: '',
-						lastInput: action.payload,
 					};
 				}
 			case 'OPERATOR_INPUT':
