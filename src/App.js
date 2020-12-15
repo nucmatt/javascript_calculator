@@ -296,19 +296,10 @@ function App() {
 					return {
 						...state,
 					};
-				} else if (precedence[state.lastInput] || state.lastInput === '(') {
-					return {
-						...state,
-						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload,
-					};
 				} else {
 					return {
 						...state,
-						eqnArray: state.currentNum
-							? [...state.eqnArray, state.currentNum, action.payload]
-							: [...state.eqnArray, action.payload],
-						currentNum: '',
+						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
 				}
