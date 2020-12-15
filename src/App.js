@@ -152,8 +152,8 @@ function App() {
 			case 'CLEAR_ALL':
 				return {
 					...state,
-					eqnArray: [],
-					currentNum: '0',
+					eqn: '',
+					// currentNum: '0',
 					lastInput: '',
 					solution: '0',
 				};
