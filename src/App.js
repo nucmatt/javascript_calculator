@@ -315,19 +315,27 @@ function App() {
 					solution: solution,
 				};
 			case 'ZERO_INPUT':
-				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
+				if (state.lastInput.startsWith('0') && !state.lastInput[1]) {
 					return {
 						...state,
+					};
+				} else if (state.lastInput === ')') {
+					return {
+						...state,
+						eqn: state.eqn + ' * ' + action.payload,
+						lastInput: action.payload,
+					};
+				} else if (state.lastInput === '(' || precedence[state.lastInput]) {
+					return {
+						...state,
+						eqn: state.eqn + ' ' + action.payload,
+						lastInput: action.payload,
 					};
 				} else {
 					return {
 						...state,
-						currentNum: state.currentNum + action.payload,
-						lastInput: action.payload,
-						solution: solvePostfix([
-							...state.eqnArray,
-							state.currentNum + action.payload,
-						]),
+						eqn: state.eqn + action.payload,
+						lastInput: state.lastInput + action.payload,
 					};
 				}
 			default:
