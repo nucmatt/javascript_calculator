@@ -4,8 +4,8 @@ import InputBtn from './components/InputBtn';
 
 function App() {
 	const initialState = {
-		eqnArray: [],
-		currentNum: '0',
+		eqn: '',
+		// currentNum: '0',
 		lastInput: '',
 		solution: '0',
 	};
