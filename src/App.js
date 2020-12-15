@@ -173,21 +173,27 @@ function App() {
 					};
 				}
 			case 'DECIMAL_INPUT':
-				if (state.currentNum.includes('.')) {
+				if (state.lastInput.includes('.')) {
 					return {
 						...state,
 					};
-				} else if (state.currentNum) {
+				} else if (state.lastInput === ')') {
 					return {
 						...state,
-						currentNum: state.currentNum + action.payload,
-						lastInput: '.',
+						eqn: state.eqn + ' * 0.',
+						lastInput: '0.'
+					}
+				} else if (Number.isInteger(state.lastInput)) {
+					return {
+						...state,
+						eqn: state.eqn + action.payload,
+						lastInput: state.lastInput + '.',
 					};
 				} else {
 					return {
 						...state,
-						currentNum: '0.',
-						lastInput: '.'
+						eqn: state.eqn + ' 0.',
+						lastInput: '0.'
 					}
 				}
 			case 'UPDATE_EQN':
