@@ -141,11 +141,13 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
-	const countOpenParen = (array) => {
-		return array.filter((index) => index === '(').length;
+	const countOpenParen = (string) => {
+		const regex = /[(]/g;
+		return string.match(regex).length;
 	};
-	const countCloseParen = (array) => {
-		return array.filter((index) => index === ')').length;
+	const countCloseParen = (string) => {
+		const regex = /[)])/g;
+		return string.match(regex).length;
 	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
@@ -158,16 +160,16 @@ function App() {
 					solution: '0',
 				};
 			case 'CLOSEPAREN_INPUT':
-				if (countOpenParen(state.eqnArray) <= countCloseParen(state.eqnArray)) {
+				if (countOpenParen(state.eqn) <= countCloseParen(state.eqn)) {
 					return {
 						...state,
 					};
 				} else {
 					return {
 						...state,
-						eqnArray: [...state.eqnArray, state.currentNum, action.payload],
+						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
-						currentNum: '',
+						// currentNum: '',
 					};
 				}
 			case 'DECIMAL_INPUT':
