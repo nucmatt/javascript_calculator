@@ -23,10 +23,10 @@ function App() {
 		'+': 'left',
 		'-': 'left',
 	};
-	const infixToPostfix = (array) => {
+	const infixToPostfix = (string) => {
 		let outputStack = [];
 		let operatorStack = [];
-		let infixArray = array;
+		let infixArray = string.split(' ');
 		while (infixArray.length > 0) {
 			let token = infixArray.shift();
 			let operator = operatorStack[0];
@@ -76,9 +76,9 @@ function App() {
 		return outputStack;
 	};
 
-	const solvePostfix = (array) => {
+	const solvePostfix = (string) => {
 		const stack = [];
-		const expression = infixToPostfix(array);
+		const expression = infixToPostfix(string);
 		let a, b, solution;
 		console.log(expression);
 		for (let i = 0; i < expression.length; i++) {
@@ -181,8 +181,8 @@ function App() {
 					return {
 						...state,
 						eqn: state.eqn + ' * 0.',
-						lastInput: '0.'
-					}
+						lastInput: '0.',
+					};
 				} else if (Number.isInteger(state.lastInput)) {
 					return {
 						...state,
@@ -193,8 +193,8 @@ function App() {
 					return {
 						...state,
 						eqn: state.eqn + ' 0.',
-						lastInput: '0.'
-					}
+						lastInput: '0.',
+					};
 				}
 			case 'UPDATE_EQN':
 				if (state.lastInput === '0') {
@@ -207,8 +207,8 @@ function App() {
 					return {
 						...state,
 						eqn: state.eqn + ' * ' + action.payload,
-						lastInput: action.payload
-					} 
+						lastInput: action.payload,
+					};
 				} else {
 					return {
 						...state,
@@ -242,8 +242,8 @@ function App() {
 					return {
 						...state,
 						eqn: state.eqn + ' ' + numFromMem,
-						lastInput: numFromMem
-					}
+						lastInput: numFromMem,
+					};
 				} else {
 					return {
 						...state,
@@ -262,12 +262,15 @@ function App() {
 						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
-				} else if (state.lastInput === ')' || Number.isFinite(state.lastInput)) {
+				} else if (
+					state.lastInput === ')' ||
+					Number.isFinite(state.lastInput)
+				) {
 					return {
 						...state,
 						eqn: state.eqn + ' * ' + action.payload,
-						lastInput: action.payload
-					}
+						lastInput: action.payload,
+					};
 				} else {
 					return {
 						...state,
@@ -304,12 +307,12 @@ function App() {
 					};
 				}
 			case 'SOLVE_EQN':
+				let solution = solvePostfix(state.eqn);
 				return {
 					...state,
-					eqnArray: [],
-					currentNum: action.payload,
-					lastInput: action.payload[action.payload.length - 1],
-					solution: action.payload,
+					eqn: solution,
+					lastInput: solution,
+					solution: solution,
 				};
 			case 'ZERO_INPUT':
 				if (state.currentNum.startsWith('0') && !state.currentNum[1]) {
@@ -334,20 +337,10 @@ function App() {
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
 
 	const handleClick = (actionType, value) => {
-		if (actionType === 'SOLVE_EQN') {
-			const solution = state.currentNum
-				? solvePostfix([...state.eqnArray, state.currentNum])
-				: solvePostfix([...state.eqnArray]);
-			dispatch({
-				type: actionType,
-				payload: solution,
-			});
-		} else {
-			dispatch({
-				type: actionType,
-				payload: value,
-			});
-		}
+		dispatch({
+			type: actionType,
+			payload: value,
+		});
 		console.log(actionType, value);
 		console.table(state);
 	};
