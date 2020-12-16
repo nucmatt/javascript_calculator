@@ -141,14 +141,14 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
-	const countOpenParen = (string) => {
-		const regex = /[(]/g;
-		return string.match(regex).length;
-	};
-	const countCloseParen = (string) => {
-		const regex = /[)])/g;
-		return string.match(regex).length;
-	};
+	// const countOpenParen = (string) => {
+	// 	const regex = /[(]/g;
+	// 	return string.match(regex).length;
+	// };
+	// const countCloseParen = (string) => {
+	// 	const regex = /[)])/g;
+	// 	return string.match(regex).length;
+	// };
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
@@ -159,18 +159,29 @@ function App() {
 					lastInput: '',
 					solution: '0',
 				};
-			case 'CLOSEPAREN_INPUT':
-				if (countOpenParen(state.eqn) !== countCloseParen(state.eqn)) {
+			case 'PAREN_INPUT':
+				if (state.eqn === '') {
 					return {
 						...state,
+						eqn: '(',
+						lastInput: '('
 					};
+				} else if (precedence[state.lastInput] || state.lastInput === '(') {
+					return {
+						...state,
+						eqn: state.eqn + ' (',
+						lastInput: '(',
+					};
+				} else if (state.lastInput === ')' || Number.isFinite(state.lastInput)) {
+					return {
+						...state,
+						eqn: state.eqn + ' * (',
+						lastInput: '('
+					}
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + ' ' + action.payload,
-						lastInput: action.payload,
-						// currentNum: '',
-					};
+					}
 				}
 			case 'DECIMAL_INPUT':
 				if (state.lastInput.includes('.')) {
@@ -249,33 +260,33 @@ function App() {
 						...state,
 					};
 				}
-			case 'OPENPAREN_INPUT':
-				if (state.lastInput === '0') {
-					return {
-						...state,
-						eqn: state.eqn.slice(0, -1) + action.payload,
-						lastInput: action.payload,
-					};
-				} else if (precedence[state.lastInput] || state.lastInput === '(') {
-					return {
-						...state,
-						eqn: state.eqn + ' ' + action.payload,
-						lastInput: action.payload,
-					};
-				} else if (
-					state.lastInput === ')' ||
-					Number.isFinite(state.lastInput)
-				) {
-					return {
-						...state,
-						eqn: state.eqn + ' * ' + action.payload,
-						lastInput: action.payload,
-					};
-				} else {
-					return {
-						...state,
-					};
-				}
+			// case 'OPENPAREN_INPUT':
+			// 	if (state.lastInput === '0') {
+			// 		return {
+			// 			...state,
+			// 			eqn: state.eqn.slice(0, -1) + action.payload,
+			// 			lastInput: action.payload,
+			// 		};
+			// 	} else if (precedence[state.lastInput] || state.lastInput === '(') {
+			// 		return {
+			// 			...state,
+			// 			eqn: state.eqn + ' ' + action.payload,
+			// 			lastInput: action.payload,
+			// 		};
+			// 	} else if (
+			// 		state.lastInput === ')' ||
+			// 		Number.isFinite(state.lastInput)
+			// 	) {
+			// 		return {
+			// 			...state,
+			// 			eqn: state.eqn + ' * ' + action.payload,
+			// 			lastInput: action.payload,
+			// 		};
+			// 	} else {
+			// 		return {
+			// 			...state,
+			// 		};
+			// 	}
 			case 'OPERATOR_INPUT':
 				if (state.lastInput === '(' || state.eqn === '') {
 					return {
@@ -360,12 +371,12 @@ function App() {
 		{ id: 'clear', value: 'C', actionType: 'CLEAR_ALL' },
 	];
 	const numbpadBtns = [
-		{ id: 'open-parentheses', value: '(', actionType: 'OPENPAREN_INPUT' },
+		{ id: 'parentheses', value: '()', actionType: 'PAREN_INPUT' },
 		{ id: 'seven', value: '7', actionType: 'UPDATE_EQN' },
 		{ id: 'eight', value: '8', actionType: 'UPDATE_EQN' },
 		{ id: 'nine', value: '9', actionType: 'UPDATE_EQN' },
 		{ id: 'divide', value: '/', actionType: 'OPERATOR_INPUT' },
-		{ id: 'close-parentheses', value: ')', actionType: 'CLOSEPAREN_INPUT' },
+		// { id: 'close-parentheses', value: ')', actionType: 'CLOSEPAREN_INPUT' },
 		{ id: 'four', value: '4', actionType: 'UPDATE_EQN' },
 		{ id: 'five', value: '5', actionType: 'UPDATE_EQN' },
 		{ id: 'six', value: '6', actionType: 'UPDATE_EQN' },
