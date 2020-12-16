@@ -160,7 +160,7 @@ function App() {
 					solution: '0',
 				};
 			case 'CLOSEPAREN_INPUT':
-				if (countOpenParen(state.eqn) <= countCloseParen(state.eqn)) {
+				if (countOpenParen(state.eqn) !== countCloseParen(state.eqn)) {
 					return {
 						...state,
 					};
@@ -386,10 +386,10 @@ function App() {
 			<main>
 				<div id='calculator'>
 					<div id='eqn' className='text-right'>
-						{state.eqnArray.join('') + state.currentNum}
+						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{state.solution}
+						{solvePostfix(state.eqn)}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
