@@ -141,6 +141,26 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
+	const parenBalanced = (string) => {
+		let open = 0;
+		let close = 0;
+		let i = 0;
+		while (i < string.length) {
+			switch (string[i]) {
+				case '(':
+					open++;
+					i++;
+					break;
+				case ')':
+					close++;
+					i++;
+					break;
+				default:
+					i++;
+			}
+		}
+		return open === close;
+	}
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
