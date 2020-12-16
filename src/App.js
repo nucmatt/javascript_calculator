@@ -141,14 +141,6 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
-	// const countOpenParen = (string) => {
-	// 	const regex = /[(]/g;
-	// 	return string.match(regex).length;
-	// };
-	// const countCloseParen = (string) => {
-	// 	const regex = /[)])/g;
-	// 	return string.match(regex).length;
-	// };
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
