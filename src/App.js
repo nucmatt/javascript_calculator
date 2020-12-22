@@ -141,26 +141,28 @@ function App() {
 			associativity[token] === 'left'
 		);
 	};
-	const parenBalanced = (string) => {
-		let open = 0;
-		let close = 0;
-		let i = 0;
-		while (i < string.length) {
-			switch (string[i]) {
-				case '(':
-					open++;
-					i++;
-					break;
-				case ')':
-					close++;
-					i++;
-					break;
-				default:
-					i++;
-			}
+	const mismatchParen = (string) => {
+		// stack array to hold parens
+		let stack = [];
+		let mismatch;
+		// iterate through string
+		  // for loop
+		  for (let i =0; i < string.length; i++) {
+		  // if i is ( add to stack
+			if (string[i] === '(') {
+			  stack.push(i);
+		  // if i is ) pop an ( from stack
+			} else if (string[i] === ')') {
+			  stack.pop();
+		  // else continue to next i
+			} 
+		  
+		  // return true if stack empty 
 		}
-		return open === close;
-	}
+		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
+		mismatch = stack[0] ? stack : false;
+		return mismatch;
+	  }
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
