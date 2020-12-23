@@ -142,22 +142,14 @@ function App() {
 		);
 	};
 	const mismatchParen = (string) => {
-		// stack array to hold parens
 		let stack = [];
 		let mismatch;
-		// iterate through string
-		  // for loop
 		  for (let i =0; i < string.length; i++) {
-		  // if i is ( add to stack
 			if (string[i] === '(') {
 			  stack.push(i);
-		  // if i is ) pop an ( from stack
 			} else if (string[i] === ')') {
 			  stack.pop();
-		  // else continue to next i
-			} 
-		  
-		  // return true if stack empty 
+			}
 		}
 		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
 		mismatch = stack[0] ? stack : false;
