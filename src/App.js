@@ -144,32 +144,33 @@ function App() {
 	const mismatchParen = (string) => {
 		let stack = [];
 		let mismatch;
-		  for (let i =0; i < string.length; i++) {
+		for (let i = 0; i < string.length; i++) {
 			if (string[i] === '(') {
-			  stack.push(i);
+				stack.push(i);
 			} else if (string[i] === ')') {
-			  stack.pop();
+				stack.pop();
 			}
 		}
 		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
 		mismatch = stack[0] ? stack : false;
 		return mismatch;
-	  }
-	  const filterParen = (string, array) => {
-		let index;
-		let filtered;
-		let n = array.length;
-		if (n === 0) {
-		  return string;
-		} else {
-		  while (n > 0) {
-			index = array.pop();
-			filtered = string.slice(0, index) + string.slice(index + 1);
-			n--;
-		  }
-		  return filtered;
+	};
+	const filterParen = (string) => {
+		let index, filtered, mismatches;
+		mismatches = mismatchParen(string);
+		filtered = string;
+		console.log(filtered, mismatches, mismatches.length);
+		for (let i = 0; i < mismatches.length; i++) {
+			index = mismatches[i];
+			console.log(mismatches, index, filtered);
+			if (index === 0) {
+				filtered = filtered.slice(1);
+			} else {
+				filtered = filtered.slice(0, index) + filtered.slice(index + 1);
+			}
 		}
-	  }
+		return filtered;
+	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
@@ -185,7 +186,7 @@ function App() {
 					return {
 						...state,
 						eqn: '(',
-						lastInput: '('
+						lastInput: '(',
 					};
 				} else if (precedence[state.lastInput] || state.lastInput === '(') {
 					return {
@@ -193,16 +194,19 @@ function App() {
 						eqn: state.eqn + ' (',
 						lastInput: '(',
 					};
-				} else if (state.lastInput === ')' || Number.isFinite(state.lastInput)) {
+				} else if (
+					state.lastInput === ')' ||
+					Number.isFinite(state.lastInput)
+				) {
 					return {
 						...state,
 						eqn: state.eqn + ' * (',
-						lastInput: '('
-					}
+						lastInput: '(',
+					};
 				} else {
 					return {
 						...state,
-					}
+					};
 				}
 			case 'DECIMAL_INPUT':
 				if (state.lastInput.includes('.')) {
