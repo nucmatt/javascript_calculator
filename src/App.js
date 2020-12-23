@@ -163,6 +163,21 @@ function App() {
 		mismatch = stack[0] ? stack : false;
 		return mismatch;
 	  }
+	  const filterParen = (string, array) => {
+		let index;
+		let filtered;
+		let n = array.length;
+		if (n === 0) {
+		  return string;
+		} else {
+		  while (n > 0) {
+			index = array.pop();
+			filtered = string.slice(0, index) + string.slice(index + 1);
+			n--;
+		  }
+		  return filtered;
+		}
+	  }
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CLEAR_ALL':
