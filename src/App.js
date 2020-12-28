@@ -153,6 +153,7 @@ function App() {
 		}
 		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
 		mismatch = stack[0] ? stack : false;
+		console.log(mismatch);
 		return mismatch;
 	};
 	const filterParen = (string) => {
@@ -195,8 +196,19 @@ function App() {
 						lastInput: '(',
 					};
 				} else if (
+					mismatchParen(state.eqn) &&
+					isFinite(state.lastInput)
+				) {
+					return {
+						...state,
+						eqn: state.eqn + ' )',
+						lastInput: ')',
+					};
+				} else if (mismatchParen(state.eqn) && state.lastInput === ')') {
+					return { ...state, eqn: state.eqn + ' )', lastInput: ')' };
+				} else if (
 					state.lastInput === ')' ||
-					Number.isFinite(state.lastInput)
+					isFinite(state.lastInput)
 				) {
 					return {
 						...state,
