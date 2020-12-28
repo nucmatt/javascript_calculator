@@ -245,6 +245,12 @@ function App() {
 						eqn: state.eqn + ' * ' + action.payload,
 						lastInput: action.payload,
 					};
+				} else if (precedence[state.lastInput] || state.lastInput === '(') {
+					return {
+						...state,
+						eqn: state.eqn + ' ' + action.payload,
+						lastInput: action.payload,
+					};
 				} else {
 					return {
 						...state,
