@@ -51,7 +51,7 @@ function App() {
 				operatorStack.unshift(token);
 				console.log(outputStack, operatorStack, infixArray, token);
 			} else if (token === ')') {
-				while (operator !== '(') {
+				while (operator !== '(' && operatorStack.length > 0) {
 					outputStack.push(operator);
 					operatorStack.shift();
 					operator = operatorStack[0];
@@ -441,7 +441,7 @@ function App() {
 						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{/* {solvePostfix(state.eqn)} */}
+						{solvePostfix(state.eqn)}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
