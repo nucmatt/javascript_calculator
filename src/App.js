@@ -229,7 +229,7 @@ function App() {
 						eqn: state.eqn + ' * 0.',
 						lastInput: '0.',
 					};
-				} else if (Number.isInteger(state.lastInput)) {
+				} else if (Number.isInteger(+state.lastInput)) {
 					return {
 						...state,
 						eqn: state.eqn + action.payload,
