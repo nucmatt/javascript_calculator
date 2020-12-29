@@ -143,7 +143,6 @@ function App() {
 	};
 	const mismatchParen = (string) => {
 		let stack = [];
-		let mismatch;
 		for (let i = 0; i < string.length; i++) {
 			if (string[i] === '(') {
 				stack.push(i);
@@ -152,9 +151,8 @@ function App() {
 			}
 		}
 		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
-		mismatch = stack[0] ? stack : false;
-		console.log(mismatch);
-		return mismatch;
+		;
+		return stack;
 	};
 	const filterParen = (string) => {
 		let index, filtered, mismatches;
@@ -183,33 +181,33 @@ function App() {
 					solution: '0',
 				};
 			case 'PAREN_INPUT':
+				let mismatches = mismatchParen(state.eqn);
 				if (state.eqn === '') {
+					console.log('eqn is blank');
 					return {
 						...state,
 						eqn: '(',
 						lastInput: '(',
 					};
 				} else if (precedence[state.lastInput] || state.lastInput === '(') {
+					console.log('last input is operator or open paren');
 					return {
 						...state,
 						eqn: state.eqn + ' (',
 						lastInput: '(',
 					};
-				} else if (
-					mismatchParen(state.eqn) &&
-					isFinite(state.lastInput)
-				) {
+				} else if (mismatches.length > 0 && isFinite(state.lastInput)) {
+					console.log('mismatched paren and last input is a number');
 					return {
 						...state,
 						eqn: state.eqn + ' )',
 						lastInput: ')',
 					};
-				} else if (mismatchParen(state.eqn) && state.lastInput === ')') {
+				} else if (mismatches.length > 0 && state.lastInput === ')') {
+					console.log('mismatched paren and last input is close paren');
 					return { ...state, eqn: state.eqn + ' )', lastInput: ')' };
-				} else if (
-					state.lastInput === ')' ||
-					isFinite(state.lastInput)
-				) {
+				} else if (state.lastInput === ')' || isFinite(state.lastInput)) {
+					console.log('last input is a close paren or a number');
 					return {
 						...state,
 						eqn: state.eqn + ' * (',
@@ -443,7 +441,7 @@ function App() {
 						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{solvePostfix(state.eqn)}
+						{/* {solvePostfix(state.eqn)} */}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
