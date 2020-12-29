@@ -219,17 +219,23 @@ function App() {
 					};
 				}
 			case 'DECIMAL_INPUT':
-				if (state.lastInput.includes('.')) {
+				if (state.eqn === '') {
 					return {
 						...state,
+						eqn: '0.',
+						lastInput: '0.'
 					};
-				} else if (state.lastInput === ')') {
+				} else if (state.lastInput.endsWith('.')) {
+					return {
+						...state
+					}
+				} else if (state.lastInput === ')' || state.lastInput.includes('.')) {
 					return {
 						...state,
 						eqn: state.eqn + ' * 0.',
 						lastInput: '0.',
 					};
-				} else if (Number.isInteger(+state.lastInput)) {
+				} else if (Number.isInteger(+state.lastInput) && !state.lastInput.includes('.')) {
 					return {
 						...state,
 						eqn: state.eqn + action.payload,
@@ -238,8 +244,8 @@ function App() {
 				} else {
 					return {
 						...state,
-						eqn: state.eqn + ' 0.',
-						lastInput: '0.',
+						// eqn: state.eqn + ' 0.',
+						// lastInput: '0.',
 					};
 				}
 			case 'UPDATE_EQN':
