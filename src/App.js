@@ -448,7 +448,7 @@ function App() {
 						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{solvePostfix(state.eqn)}
+						{solvePostfix(filterParen(state.eqn))}
 					</div>
 					<div id='secondary-funcs'>
 						<div className='blank'></div>
