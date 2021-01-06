@@ -172,6 +172,22 @@ function App() {
 	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
+			case 'CHANGE_SIGN':
+				if(state.lastInput === '') {
+					return {
+						...state,
+					}
+				} else if (isFinite(state.lastInput)) {
+					let x = state.lastInput * -1;
+					console.log(state.lastInput.length);
+					return {
+						...state,
+						eqn: state.eqn.slice(0, -state.lastInput.length) + x,
+						lastInput: x.toString(),
+					}
+				} else {
+					return state;
+				}
 			case 'CLEAR_ALL':
 				return {
 					...state,
@@ -363,7 +379,7 @@ function App() {
 						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
-				}
+				};
 			case 'SOLVE_EQN':
 				let solution = solvePostfix(state.eqn);
 				return {
