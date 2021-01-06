@@ -151,7 +151,6 @@ function App() {
 			}
 		}
 		console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
-		;
 		return stack;
 	};
 	const filterParen = (string) => {
@@ -173,14 +172,26 @@ function App() {
 	};
 	const signChange = (string) => {
 		return string * -1;
-	}
+	};
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
-			case 'CHANGE_SIGN':
-				if(state.lastInput === '') {
+			case 'BACKSPACE':
+				if (state.eqn === '') {
+					return state;
+				} else {
+					let newEqn = state.eqn.slice(0, -1).trim();
+					let newInput = newEqn.split(' ').pop();
 					return {
 						...state,
+						eqn: newEqn,
+						lastInput: newInput
 					}
+				}
+			case 'CHANGE_SIGN':
+				if (state.lastInput === '') {
+					return {
+						...state,
+					};
 				} else if (isFinite(state.lastInput)) {
 					let x = signChange(state.lastInput);
 					console.log(state.lastInput.length);
@@ -188,7 +199,7 @@ function App() {
 						...state,
 						eqn: state.eqn.slice(0, -state.lastInput.length) + x,
 						lastInput: x.toString(),
-					}
+					};
 				} else {
 					return state;
 				}
@@ -243,19 +254,22 @@ function App() {
 					return {
 						...state,
 						eqn: '0.',
-						lastInput: '0.'
+						lastInput: '0.',
 					};
 				} else if (state.lastInput.endsWith('.')) {
 					return {
-						...state
-					}
+						...state,
+					};
 				} else if (state.lastInput === ')' || state.lastInput.includes('.')) {
 					return {
 						...state,
 						eqn: state.eqn + ' * 0.',
 						lastInput: '0.',
 					};
-				} else if (Number.isInteger(+state.lastInput) && !state.lastInput.includes('.')) {
+				} else if (
+					Number.isInteger(+state.lastInput) &&
+					!state.lastInput.includes('.')
+				) {
 					return {
 						...state,
 						eqn: state.eqn + action.payload,
@@ -383,7 +397,7 @@ function App() {
 						eqn: state.eqn + ' ' + action.payload,
 						lastInput: action.payload,
 					};
-				};
+				}
 			case 'SOLVE_EQN':
 				let solution = solvePostfix(state.eqn);
 				return {
@@ -431,8 +445,8 @@ function App() {
 		console.table(state);
 	};
 
-	const secondaryFuncs = [		
-		{ id: 'backspace', value: 'BS' },
+	const secondaryFuncs = [
+		{ id: 'backspace', value: 'BS', actionType: 'BACKSPACE' },
 		{ id: 'mem-clear', value: 'MC', actionType: 'MEM_CLEAR' },
 		{ id: 'mem-recall', value: 'MR', actionType: 'MEM_RECALL' },
 		{ id: 'mem-add', value: 'M+', actionType: 'MEM_ADD' },
