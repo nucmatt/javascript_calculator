@@ -163,11 +163,12 @@ function App() {
 			index = mismatches[i];
 			console.log(mismatches, index, filtered);
 			if (index === 0) {
-				filtered = filtered.slice(1);
+				filtered = filtered.slice(1).trim();
 			} else {
-				filtered = filtered.slice(0, index) + filtered.slice(index + 1);
+				filtered = filtered.slice(0, index) + filtered.slice(index + 1).trim();
 			}
 		}
+		console.log(typeof filtered, filtered);
 		return filtered;
 	};
 	const eqnReducer = (state, action) => {
