@@ -170,6 +170,9 @@ function App() {
 		}
 		return filtered;
 	};
+	const signChange = (string) => {
+		return string * -1;
+	}
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CHANGE_SIGN':
@@ -178,7 +181,7 @@ function App() {
 						...state,
 					}
 				} else if (isFinite(state.lastInput)) {
-					let x = state.lastInput * -1;
+					let x = signChange(state.lastInput);
 					console.log(state.lastInput.length);
 					return {
 						...state,
