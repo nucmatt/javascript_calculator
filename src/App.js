@@ -176,11 +176,20 @@ function App() {
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'BACKSPACE':
+				let newEqn, newInput;
 				if (state.eqn === '') {
 					return state;
+				} else if (state.lastInput.startsWith('-') && state.lastInput.length === 2) {
+					newEqn = state.eqn.slice(0, -2).trim();
+					newInput = newEqn.split(' ').pop();
+					return {
+						...state,
+						eqn: newEqn,
+						lastInput: newInput
+					}
 				} else {
-					let newEqn = state.eqn.slice(0, -1).trim();
-					let newInput = newEqn.split(' ').pop();
+					newEqn = state.eqn.slice(0, -1).trim();
+					newInput = newEqn.split(' ').pop();
 					return {
 						...state,
 						eqn: newEqn,
