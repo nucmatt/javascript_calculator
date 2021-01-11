@@ -466,7 +466,7 @@ function App() {
 			<main>
 				<div id='calculator'>
 					<div id='eqn' className='text-right'>
-						{state.eqn}
+						{state.eqn ? state.eqn : 'Start Calulating!'}
 					</div>
 					<div id='display' className='text-right'>
 						{solution}
