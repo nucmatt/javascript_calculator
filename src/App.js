@@ -174,6 +174,7 @@ function App() {
 	const signChange = (string) => {
 		return string * -1;
 	}
+	
 	const eqnReducer = (state, action) => {
 		switch (action.type) {
 			case 'CHANGE_SIGN':
@@ -421,6 +422,7 @@ function App() {
 		}
 	};
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
+	const solution = solvePostfix(filterParen(state.eqn));
 
 	const handleClick = (actionType, value) => {
 		dispatch({
@@ -467,7 +469,7 @@ function App() {
 						{state.eqn}
 					</div>
 					<div id='display' className='text-right'>
-						{solvePostfix(filterParen(state.eqn))}
+						{solution}
 					</div>
 					<div id='secondary-funcs'>
 						{/* <div className='blank'></div> */}
