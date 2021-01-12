@@ -151,10 +151,16 @@ const eqnReducer = (state, action) => {
                 };
             }
         case 'MEM_ADD':
-            sessionStorage.setItem('number', solution);
-            return {
-                ...state,
-            };
+            if (isFinite(solution(state.eqn))) {
+                sessionStorage.setItem('number', solution(state.eqn));
+                return {
+                    ...state,
+                }
+            } else {
+                return {
+                    ...state,
+                };
+            }
         case 'MEM_CLEAR':
             sessionStorage.removeItem('number');
             return {
