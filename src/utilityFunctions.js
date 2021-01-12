@@ -104,7 +104,7 @@ export const solutionPrecision = (result) => {
     } else if (Number.isFinite(result)) {
         return result.toFixed(4);
     } else {
-        return '...';
+        return 0;
     }
 };
 export const greaterPrecedence = (operator, token) => {
