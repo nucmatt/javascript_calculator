@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 import eqnReducer from './eqnReducer';
-import { solvePostfix, filterParen } from './utilityFunctions';
+import { solution } from './utilityFunctions';
 
 function App() {
 	const initialState = {
@@ -13,7 +13,7 @@ function App() {
 	};
 	// const { filterParen, solvePostfix } = utilityFunctions;
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
-	const solution = solvePostfix(filterParen(state.eqn));
+	// const solution = solvePostfix(filterParen(state.eqn));
 
 	const handleClick = (actionType, value) => {
 		dispatch({
@@ -60,7 +60,7 @@ function App() {
 						{state.eqn ? state.eqn : 'Start Calculating!'}
 					</div>
 					<div id='display' className='text-right'>
-						{solution}
+						{solution(state.eqn)}
 					</div>
 					<div id='secondary-funcs'>
 						{/* <div className='blank'></div> */}

@@ -1,4 +1,4 @@
-import { precedence, solvePostfix,  mismatchParen, signChange } from './utilityFunctions';
+import { precedence, solution,  mismatchParen, signChange } from './utilityFunctions';
 
 // const { precedence, solvePostfix,  mismatchParen, signChange } = utilityFunctions;
 
@@ -151,7 +151,7 @@ const eqnReducer = (state, action) => {
                 };
             }
         case 'MEM_ADD':
-            sessionStorage.setItem('number', state.solution);
+            sessionStorage.setItem('number', solution);
             return {
                 ...state,
             };
@@ -236,14 +236,14 @@ const eqnReducer = (state, action) => {
                     lastInput: action.payload,
                 };
             }
-        case 'SOLVE_EQN':
-            let solution = solvePostfix(state.eqn);
-            return {
-                ...state,
-                eqn: solution,
-                lastInput: solution,
-                solution: solution,
-            };
+        // case 'SOLVE_EQN':
+        //     // let solution = solvePostfix(state.eqn);
+        //     return {
+        //         ...state,
+        //         eqn: solution,
+        //         lastInput: solution,
+        //         solution: solution,
+        //     };
         case 'ZERO_INPUT':
             if (state.lastInput.startsWith('0') && !state.lastInput[1]) {
                 return {

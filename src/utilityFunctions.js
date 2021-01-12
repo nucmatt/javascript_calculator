@@ -139,7 +139,7 @@ export const mismatchParen = (string) => {
             stack.pop();
         }
     }
-    console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
+    // console.log(string.slice(0, stack[0]) + string.slice(stack[0] + 1));
     return stack;
 };
 export const filterParen = (string) => {
@@ -162,3 +162,6 @@ export const filterParen = (string) => {
 export const signChange = (string) => {
     return string * -1;
 };
+export const solution = (string) => {
+    return solvePostfix(filterParen(string));
+}
