@@ -7,14 +7,9 @@ import { solution } from './utilityFunctions';
 function App() {
 	const initialState = {
 		eqn: '',
-		// currentNum: '0',
 		lastInput: '',
-		// solution: '0',
 	};
-	// const { filterParen, solvePostfix } = utilityFunctions;
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
-	// const solution = solvePostfix(filterParen(state.eqn));
-
 	const handleClick = (actionType, value) => {
 		dispatch({
 			type: actionType,
@@ -63,7 +58,6 @@ function App() {
 						{solution(state.eqn)}
 					</div>
 					<div id='secondary-funcs'>
-						{/* <div className='blank'></div> */}
 						{secondaryFuncs.map((button) => (
 							<InputBtn input={button} handleClick={handleClick} />
 						))}
