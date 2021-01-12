@@ -26,7 +26,7 @@ function App() {
 
 	const secondaryFuncs = [
 		{ id: 'backspace', value: 'BS', actionType: 'BACKSPACE' },
-		{ id: 'mem-clear', value: 'MC', actionType: 'MEM_CLEAR' },
+		{ id: 'mem-clear', value: 'M-', actionType: 'MEM_CLEAR' },
 		{ id: 'mem-recall', value: 'MR', actionType: 'MEM_RECALL' },
 		{ id: 'mem-add', value: 'M+', actionType: 'MEM_ADD' },
 		{ id: 'clear', value: 'C', actionType: 'CLEAR_ALL' },
