@@ -9,7 +9,7 @@ function App() {
 		eqn: '',
 		// currentNum: '0',
 		lastInput: '',
-		solution: '0',
+		// solution: '0',
 	};
 	// const { filterParen, solvePostfix } = utilityFunctions;
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
