@@ -51,7 +51,8 @@ const eqnReducer = (state, action) => {
 			return {
 				...state,
 				eqn: '',
-				lastInput: '',
+                lastInput: '0',
+                solved: ''
 			};
 		case 'PAREN_INPUT':
 			let mismatches = mismatchParen(state.eqn);
@@ -201,8 +202,9 @@ const eqnReducer = (state, action) => {
 			if (isFinite(solved)) {
 				return {
 					...state,
-					eqn: solved,
-					lastInput: solved,
+					eqn: solution(state.eqn),
+                    lastInput: solution(state.eqn),
+                    solved: solution(state.eqn)
 				};
 			} else {
 				return {

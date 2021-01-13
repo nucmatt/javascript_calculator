@@ -2,12 +2,13 @@ import { useReducer } from 'react';
 import './scss/style.scss';
 import InputBtn from './components/InputBtn';
 import eqnReducer from './eqnReducer';
-import { solution } from './utilityFunctions';
+// import { solution } from './utilityFunctions';
 
 function App() {
 	const initialState = {
 		eqn: '',
-		lastInput: '',
+		lastInput: '0',
+		solved: ''
 	};
 	const [state, dispatch] = useReducer(eqnReducer, initialState);
 	const handleClick = (actionType, value) => {
@@ -55,7 +56,7 @@ function App() {
 						{state.eqn ? state.eqn : 'Start Calculating!'}
 					</div>
 					<div id='display' className='text-right'>
-						{solution(state.eqn)}
+						{state.solved ? state.solved : state.lastInput}
 					</div>
 					<div id='secondary-funcs'>
 						{secondaryFuncs.map((button) => (
