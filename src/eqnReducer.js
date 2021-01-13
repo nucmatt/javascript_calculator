@@ -51,8 +51,8 @@ const eqnReducer = (state, action) => {
 			return {
 				...state,
 				eqn: '',
-                lastInput: '0',
-                solved: ''
+				lastInput: '0',
+				solved: '',
 			};
 		case 'PAREN_INPUT':
 			let mismatches = mismatchParen(state.eqn);
@@ -98,12 +98,12 @@ const eqnReducer = (state, action) => {
 				return {
 					...state,
 				};
-			// } else if (state.lastInput === ')' || state.lastInput.includes('.')) {
-			// 	return {
-			// 		...state,
-			// 		eqn: state.eqn + ' * 0.',
-			// 		lastInput: '0.',
-			// 	};
+				// } else if (state.lastInput === ')' || state.lastInput.includes('.')) {
+				// 	return {
+				// 		...state,
+				// 		eqn: state.eqn + ' * 0.',
+				// 		lastInput: '0.',
+				// 	};
 			} else if (
 				Number.isInteger(+state.lastInput) &&
 				!state.lastInput.includes('.')
@@ -125,7 +125,13 @@ const eqnReducer = (state, action) => {
 					eqn: state.eqn.slice(0, -1) + action.payload,
 					lastInput: action.payload,
 				};
-			} else if (state.lastInput === ')') {
+			} else if (state.lastInput === '-' && precedence[state.eqn.slice(-3, -2)]) {
+                return {
+                    ...state,
+                    eqn: state.eqn + action.payload,
+                    lastInput: state.lastInput + action.payload
+                }
+            } else if (state.lastInput === ')') {
 				return {
 					...state,
 					eqn: state.eqn + ' * ' + action.payload,
@@ -184,6 +190,12 @@ const eqnReducer = (state, action) => {
 				return {
 					...state,
 				};
+			} else if (action.payload === '-' && state.lastInput !== action.payload) {
+				return {
+                    ...state,
+                    eqn: state.eqn + ' ' + action.payload,
+                    lastInput: action.payload
+				};
 			} else if (precedence[state.lastInput]) {
 				return {
 					...state,
@@ -203,8 +215,8 @@ const eqnReducer = (state, action) => {
 				return {
 					...state,
 					eqn: solution(state.eqn),
-                    lastInput: solution(state.eqn),
-                    solved: solution(state.eqn)
+					lastInput: solution(state.eqn),
+					solved: solution(state.eqn),
 				};
 			} else {
 				return {
