@@ -98,12 +98,12 @@ const eqnReducer = (state, action) => {
 				return {
 					...state,
 				};
-			} else if (state.lastInput === ')' || state.lastInput.includes('.')) {
-				return {
-					...state,
-					eqn: state.eqn + ' * 0.',
-					lastInput: '0.',
-				};
+			// } else if (state.lastInput === ')' || state.lastInput.includes('.')) {
+			// 	return {
+			// 		...state,
+			// 		eqn: state.eqn + ' * 0.',
+			// 		lastInput: '0.',
+			// 	};
 			} else if (
 				Number.isInteger(+state.lastInput) &&
 				!state.lastInput.includes('.')
