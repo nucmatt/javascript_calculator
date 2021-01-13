@@ -99,10 +99,10 @@ export const solvePostfix = (string) => {
 export const solutionPrecision = (result) => {
     if (result === '0') {
         return 0;
-    } else if (Number.isInteger(result)) {
-        return result;
+    // } else if (Number.isInteger(result)) {
+    //     return result;
     } else if (Number.isFinite(result)) {
-        return result.toFixed(4);
+        return parseFloat(result.toFixed(4));
     } else {
         return 0;
     }
