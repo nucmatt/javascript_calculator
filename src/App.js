@@ -41,7 +41,7 @@ function App() {
 		{ id: 'one', value: '1', actionType: 'UPDATE_EQN' },
 		{ id: 'two', value: '2', actionType: 'UPDATE_EQN' },
 		{ id: 'three', value: '3', actionType: 'UPDATE_EQN' },
-		{ id: 'subtract', value: '-', actionType: 'OPERATOR_INPUT' },
+		{ id: 'subtract', value: '-', actionType: 'OPERATOR_SUBTRACT' },
 		{ id: 'exponent', value: '^', actionType: 'OPERATOR_INPUT' },
 		{ id: 'decimal', value: '.', actionType: 'DECIMAL_INPUT' },
 		{ id: 'zero', value: '0', actionType: 'ZERO_INPUT' },

@@ -125,10 +125,10 @@ const eqnReducer = (state, action) => {
 					eqn: state.eqn.slice(0, -1) + action.payload,
 					lastInput: action.payload,
 				};
-			} else if (state.lastInput === '-' && precedence[state.eqn.slice(-3, -2)]) {
+			} else if (state.lastInput === '-' && (precedence[state.eqn.slice(-1)] && state.eqn.slice(-1) !== '-')) {
                 return {
                     ...state,
-                    eqn: state.eqn + action.payload,
+                    eqn: state.eqn + ' ' + state.lastInput + action.payload,
                     lastInput: state.lastInput + action.payload
                 }
             } else if (state.lastInput === ')') {
@@ -208,6 +208,19 @@ const eqnReducer = (state, action) => {
 					eqn: state.eqn + ' ' + action.payload,
 					lastInput: action.payload,
 				};
+			}
+		case 'OPERATOR_SUBTRACT':
+			if (precedence[state.lastInput]) {
+				return {
+					...state,
+					lastInput: action.payload
+				}
+			} else {
+				return {
+					...state,
+					eqn: state.eqn + ' ' + action.payload,
+					lastInput: action.payload
+				}
 			}
 		case 'SOLVE_EQN':
 			const solved = document.getElementById('display').innerHTML;
